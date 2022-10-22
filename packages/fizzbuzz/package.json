@@ -1,0 +1,40 @@
+{
+  "name": "@evatrium/fizzbuzz",
+  "version": "0.0.0",
+  "description": "testing out mono repo",
+  "keywords": [],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "source": "src",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "dev": "tsup src/index.ts --format esm,cjs --watch --dts",
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "clean": "rm -rf dist",
+    "_clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "lint": "TIMING=1 eslint \"src/**/*.ts*\"",
+    "test": "jest --watch"
+  },
+  "jest": {
+    "preset": "@evatrium/configs/jest/node"
+  },
+  "devDependencies": {
+    "@evatrium/configs": "workspace:*",
+    "@evatrium/foobar": "workspace:*"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Default",
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "allowJs": true,
+    "importHelpers": false,
+    "useDefineForClassFields": true,
+    "experimentalDecorators": true,
+    // output .d.ts declaration files for consumers
+    "declaration": true,
+    "declarationMap": true,
+    "composite": false,
+    // interop between ESM and CJS modules. Recommended by TS
+    "esModuleInterop": true,
+    "strictNullChecks": true,
+    // linter checks for common issues
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    // error out if import and file system have a casing mismatch. Recommended by TS
+    "forceConsistentCasingInFileNames": true,
+    "inlineSources": false,
+    "isolatedModules": true,
+    // use Node's module resolution algorithm, instead of the legacy TS one
+    "moduleResolution": "node",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "preserveWatchOutput": true,
+    // significant perf increase by skipping checking .d.ts files, particularly those in node_modules. Recommended by TS
+    "skipLibCheck": true,
+    // stricter type-checking for stronger correctness. Recommended by TS
+    "strict": true,
+    "resolveJsonModule": true,
+    "noEmit": true
+  }
+}

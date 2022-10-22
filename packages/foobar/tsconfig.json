@@ -1,0 +1,17 @@
+{
+  "extends": "@evatrium/configs/ts/tsconfig.base.json",
+  "include": [
+    "./src"
+  ],
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "types": [
+      "jest",
+      "node"
+    ]
+  }
+}

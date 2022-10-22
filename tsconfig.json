@@ -1,0 +1,3 @@
+// intentionally empty
+// Having a blank `tsconfig.json` file prevents TypeScript from crawling up your directory tree
+{}
