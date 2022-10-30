@@ -4,6 +4,7 @@
     "node_modules"
   ],
   "compilerOptions": {
+    "composite": true,
     "types": [
       "node"
     ]

@@ -1,0 +1,34 @@
+{
+  "extends": "@evatrium/configs/ts/tsconfig.react-lib.json",
+  "include": [
+    "./src",
+    "vite.config.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".plop",
+    "dist"
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": [
+        "src/*"
+      ],
+    },
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "types": [
+      "vite/client",
+      "vitest/globals",
+      "node",
+      "jsdom",
+      "jest",
+      "react",
+      "react-dom"
+    ],
+  }
+}

@@ -2,3 +2,6 @@
 packages/**/dist/**/*
 .github
 .changeset
+.plop
+plopfile.cjs
+_

@@ -1,0 +1,24 @@
+{
+  "extends": "@evatrium/configs/ts/tsconfig.base.json",
+  "include": [
+    "./src",
+    "vite.config.ts"
+  ],
+  "compilerOptions": {
+//    "composite": true,
+    "paths": {
+      "~/*": ["src/*"]
+    },
+    "baseUrl": ".",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "types": [
+      "vite/client",
+      "vitest/globals",
+      "node"
+    ]
+  }
+}

@@ -1,10 +1,12 @@
 # Deep Directories
 **/node_modules
 **/dist
+**/.plop
 
 # Directories
 .github
 .changeset
+_
 
 # Files
 README.md
