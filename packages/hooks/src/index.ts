@@ -15,5 +15,5 @@ export * from './useWillUnmount';
 export * from './useIsomorphicEffect';
 export * from './useIsFirstRender';
 export * from './useId';
-export * from './createState';
+export * from './useHarmonicInterval';
 // GENERATED EXPORTS

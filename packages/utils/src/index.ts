@@ -36,4 +36,5 @@ export * from './updateMany';
 export * from './url';
 export * from './wait';
 export * from './types';
+export * from './harmonicInterval';
 // GENERATED EXPORTS

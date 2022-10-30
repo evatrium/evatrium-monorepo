@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import { act, renderHook } from '@testing-library/react-hooks/dom';
 import { useToggle } from '~/useToggle';
 
@@ -12,7 +13,7 @@ describe('useToggle', () => {
   });
 
   it('should be instantiatable with value', () => {
-    let { result } = renderHook(() => useToggle(true));
+    const { result } = renderHook(() => useToggle(true));
     expect(result.current[0]).toBe(true);
   });
 

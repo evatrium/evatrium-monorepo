@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import { renderHook } from '@testing-library/react-hooks/dom';
 import { useDebounce } from '~/useDebounce';
 
@@ -43,7 +44,6 @@ describe('useDebounce', () => {
   });
 
   it('should pass parameters to callback', () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const cb = vi.fn((_a: number, _c: string) => {});
     const { result } = renderHook(() => useDebounce(cb, 200));
 

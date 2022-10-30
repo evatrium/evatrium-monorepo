@@ -13,11 +13,10 @@ module.exports = {
   },
   extends: [
     'turbo',
-    'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:prettier/recommended',
-    'prettier'
+    'eslint:recommended',
+    'prettier',
+    'plugin:prettier/recommended'
   ],
   parser: '@typescript-eslint/parser',
   overrides: [],
@@ -30,6 +29,9 @@ module.exports = {
     'arrow-body-style': 'off',
     'prefer-arrow-callback': 'off',
     'object-curly-spacing': ['error', 'always'],
+    'no-unused-vars': 'off',
+    'no-extra-parens': 'off',
+    'no-redeclare': 'off',
     quotes: [
       'warn',
       'single',
@@ -52,14 +54,18 @@ module.exports = {
         arrowParens: 'always'
       }
     ],
-    '@typescript-eslint/no-unused-vars': [
-      'off',
-      {
-        ignoreRestSiblings: true
-      }
-    ],
+    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off'
   }
 };
+/*
+[
+      'off',
+      {
+        ignoreRestSiblings: true
+      }
+    ],
+ */

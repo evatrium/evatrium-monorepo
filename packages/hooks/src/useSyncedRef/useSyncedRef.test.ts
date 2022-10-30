@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import { useSyncedRef } from './useSyncedRef';
 import { renderHook } from '@testing-library/react-hooks/dom';
 

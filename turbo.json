@@ -16,6 +16,12 @@
       ],
       "dependsOn": []
     },
+    "test:watch": {
+      "outputs": [
+        "coverage/**"
+      ],
+      "dependsOn": []
+    },
     "lint": {
       "outputs": []
     },

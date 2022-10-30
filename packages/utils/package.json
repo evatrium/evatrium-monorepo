@@ -25,8 +25,8 @@
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "lint": "TIMING=1 eslint \"src/**/*.ts*\"",
-    "_test": "jest --watch",
-    "test": "vitest run"
+    "test": "vitest",
+    "test:watch": "vitest --watch"
   },
   "devDependencies": {
     "@evatrium/configs": "workspace:*"

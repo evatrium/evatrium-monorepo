@@ -26,7 +26,7 @@ module.exports = (plop) => {
       {
         type: 'add',
         path: 'src/{{camelCase name}}/{{camelCase name}}.test.ts',
-        templateFile: '.plop/templates/dom.ts.hbs'
+        templateFile: '.plop/templates/test.ts.hbs'
       },
       {
         path: 'src/index.ts',

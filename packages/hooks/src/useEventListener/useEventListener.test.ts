@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import { useEventListener } from '~/useEventListener';
 import { renderHook } from '@testing-library/react-hooks/dom';
 

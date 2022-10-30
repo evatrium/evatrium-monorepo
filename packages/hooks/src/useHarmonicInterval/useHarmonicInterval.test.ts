@@ -1,9 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
 import { renderHook } from '@testing-library/react-hooks/dom';
-import { useIsomorphicEffect } from '~/useIsomorphicEffect';
+import { useHarmonicInterval } from '~/useHarmonicInterval';
 
-describe('useIsomorphicEffect', () => {
+describe('useHarmonicInterval', () => {
   it('should be defined', () => {
-    expect(useIsomorphicEffect).toBeDefined();
+    expect(useHarmonicInterval).toBeDefined();
   });
 });

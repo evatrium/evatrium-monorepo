@@ -1,4 +1,6 @@
-const config = require('@evatrium/configs/eslint/react.cjs'); // eslint-disable-line
-// import config from '@evatrium/configs/eslint/react';
+const config = require('@evatrium/configs/eslint/react.cjs');
 
-module.exports = config;
+module.exports = {
+  root: true,
+  ...config
+};

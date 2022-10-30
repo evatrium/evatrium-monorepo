@@ -27,7 +27,8 @@
     "lint": "TIMING=1 eslint \"src/**/*.ts*\"",
     "_test": "jest --watch",
     "__test": "jest --selectProjects dom ssr",
-    "test": "vitest --watch"
+    "test": "vitest",
+    "test:watch": "vitest --watch"
   },
   "peerDependencies": {
     "react": "^16.8 || ^17 || ^18",

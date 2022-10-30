@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import { act, renderHook } from '@testing-library/react-hooks/dom';
 import { useSafeState } from '~/useSafeState';
 

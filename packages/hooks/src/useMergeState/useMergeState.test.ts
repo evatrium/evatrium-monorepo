@@ -1,6 +1,6 @@
+import { describe, it, expect, vi } from 'vitest';
 import { renderHook, act } from '@testing-library/react-hooks/dom';
 import { useMergeState } from '~/useMergeState';
-import { expect } from 'vitest';
 import { deepMerge } from '@evatrium/utils';
 
 describe('useMergeState', () => {

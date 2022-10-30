@@ -3,12 +3,12 @@ const base = require('./base.cjs');
 
 module.exports = {
   ...base,
-  extends: [...base.extends, 'plugin:react/recommended'],
-  plugins: [...base.plugins, 'react', 'react-hooks'],
+  extends: ['plugin:react/recommended', ...base.extends],
+  plugins: ['react', 'react-hooks', ...base.plugins],
   rules: {
     ...base.rules,
     'react-hooks/exhaustive-deps': 'warn',
-    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/rules-of-hooks': 'warn',
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off'
   },

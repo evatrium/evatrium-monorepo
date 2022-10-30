@@ -1,5 +1,5 @@
 import { debounce } from '@evatrium/utils';
-import { useEffect, useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { useWillUnmount } from '~/useWillUnmount';
 
 export interface DebouncedFunction<Fn extends (...args: any[]) => any> {
@@ -26,6 +26,7 @@ export const useDebounce = <Fn extends (...args: any[]) => any>(
     const wrapped = debounce(callback, wait);
     cr.current = wrapped.cancel;
     return wrapped;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wait, ...deps]);
 
   useWillUnmount(cr.current);

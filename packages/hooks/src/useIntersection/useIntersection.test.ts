@@ -1,6 +1,6 @@
+import { describe, it, expect, vi } from 'vitest';
 import { act, renderHook } from '@testing-library/react-hooks/dom';
 import { useIntersection } from '~/useIntersection';
-import { expect } from 'vitest';
 
 describe('useIntersection', () => {
   let IntersectionObserverSpy: any; // Mock<IntersectionObserver>
