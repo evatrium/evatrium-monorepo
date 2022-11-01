@@ -1,4 +1,4 @@
-import { prefixPx } from '~/prefixPx';
+import { prefixPx } from '~/cssinjs/prefixPx.js';
 
 export const jsToClasses = (obj) =>
   Object.keys(obj).reduce(

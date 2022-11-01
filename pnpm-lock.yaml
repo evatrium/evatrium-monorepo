@@ -86,11 +86,13 @@ importers:
   apps/experimentalStyles:
     specifiers:
       '@evatrium/configs': workspace:*
+      '@evatrium/experimental-styles': workspace:*
       '@evatrium/hooks': workspace:*
       '@evatrium/utils': workspace:*
       react: ^18.1.0
       react-dom: ^18.1.0
     dependencies:
+      '@evatrium/experimental-styles': link:../../packages/experimental-styles
       '@evatrium/hooks': link:../../packages/ui
       '@evatrium/utils': link:../../packages/utils
       react: 18.2.0
