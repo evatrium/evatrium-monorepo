@@ -1,15 +1,14 @@
-import * as path from 'path';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
-import { VitePWA, VitePWAOptions } from 'vite-plugin-pwa';
+import { VitePWA } from 'vite-plugin-pwa';
 import { resolve as pathResolve } from 'node:path';
 import { deepMerge, isObj } from '@evatrium/utils';
 
 // https://vitejs.dev/config/
-export default function viteBoilerplateSPA({ pwa }: { pwa?: boolean | Record<string, any> } = {}) {
+export default function viteBoilerplateSPA({ pwa } = {}) {
   const src = pathResolve(process.cwd(), 'src');
   //@ts-ignore @TODO
-  let pwaConfig: VitePWAOptions = {
+  let pwaConfig = {
     includeAssets: ['favicon.svg', 'favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
     // switch to "true" to enable sw on development
     devOptions: {

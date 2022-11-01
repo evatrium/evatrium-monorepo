@@ -7,7 +7,6 @@
   "devDependencies": {
     "@types/jest": "^26.0.24",
     "ts-jest": "^29.0.3",
-    "@evatrium/utils": "workspace:*",
     "vite-plugin-pwa": "*"
   }
 }

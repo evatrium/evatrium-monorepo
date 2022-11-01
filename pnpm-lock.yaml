@@ -5,6 +5,7 @@ importers:
   .:
     specifiers:
       '@changesets/cli': ^2.25.0
+      '@evatrium/utils': workspace:*
       '@testing-library/dom': ^8.19.0
       '@testing-library/jest-dom': ^5.16.5
       '@testing-library/react': ^13.4.0
@@ -31,7 +32,6 @@ importers:
       prettier: ^2.7.1
       react: ^18.2.0
       react-dom: ^18.2.0
-      react-pwa: workspace:^2.0.2
       snapshot-diff: ^0.10.0
       ts-jest: ^29.0.3
       ts-node: ^10.9.1
@@ -43,10 +43,10 @@ importers:
       vitest: ^0.24.3
       workbox-window: ^6.5.4
     dependencies:
-      react-pwa: link:apps/pwa
       workbox-window: 6.5.4
     devDependencies:
       '@changesets/cli': 2.25.0
+      '@evatrium/utils': link:packages/utils
       '@testing-library/dom': 8.19.0
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
@@ -171,12 +171,10 @@ importers:
 
   packages/configs:
     specifiers:
-      '@evatrium/utils': workspace:*
       '@types/jest': ^26.0.24
       ts-jest: ^29.0.3
       vite-plugin-pwa: '*'
     devDependencies:
-      '@evatrium/utils': link:../utils
       '@types/jest': 26.0.24
       ts-jest: 29.0.3_fxe5mizohawh6cjruma5lyyrna
       vite-plugin-pwa: 0.12.8_2txo4viysstjrz5b6oxcrxybay
