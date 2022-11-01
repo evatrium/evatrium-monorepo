@@ -41,13 +41,13 @@ export const useTimeout = (
         isMounted() && isFunc(cbRef.current) && cbRef.current(/*{ start, cancel }*/); // // maybe pass these back?
       }, /* _time || */ timeRef.current);
     },
-    []
+    [] // eslint-disable-line
   );
 
   useEffect(() => {
     if (startOnMount) start();
     return cancel;
-  }, [startOnMount, time]);
+  }, [startOnMount, time]); // eslint-disable-line
 
   return {
     start,

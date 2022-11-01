@@ -28,6 +28,7 @@ module.exports = {
   rules: {
     'arrow-body-style': 'off',
     'prefer-arrow-callback': 'off',
+    'prefer-const':'off',
     'object-curly-spacing': ['error', 'always'],
     'no-unused-vars': 'off',
     'no-extra-parens': 'off',

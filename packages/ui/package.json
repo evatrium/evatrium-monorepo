@@ -1,0 +1,45 @@
+{
+  "name": "@evatrium/hooks",
+  "version": "1.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "source": "src",
+  "sideEffects": false,
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "dev": "tsup src/index.ts --format esm,cjs --watch --dts",
+    "_build": "tsup src/index.ts --format esm,cjs --dts",
+    "build": "exit 0",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "lint": "TIMING=1 eslint \"src/**/*.ts*\"",
+    "_test": "jest --watch",
+    "__test": "jest --selectProjects dom ssr",
+    "___test": "vitest",
+    "____test:watch": "vitest --watch",
+    "test": "exit 0"
+  },
+  "peerDependencies": {
+    "react": "^16.8 || ^17 || ^18",
+    "react-dom": "^16.8 || ^17 || ^18"
+  },
+  "dependencies": {
+    "@evatrium/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@evatrium/configs": "workspace:*"
+  }
+}

@@ -1,10 +1,11 @@
 // import * as React from 'react';
 import { useEffect, useId as useReactId, useState } from 'react';
-// credit MUI utils
+import { useSafeState } from '~/useSafeState';
+// remixed from @mui/utils
 
 let globalId = 0;
 const useGlobalId = (idOverride?: string): string | undefined => {
-  const [defaultId, setDefaultId] = useState(idOverride);
+  const [defaultId, setDefaultId] = useSafeState(idOverride);
   const id = idOverride || defaultId;
   useEffect(() => {
     if (defaultId == null) {

@@ -158,9 +158,37 @@ importers:
       ts-jest: ^29.0.3
     devDependencies:
       '@types/jest': 26.0.24
-      ts-jest: 29.0.3_r7gdwuj75x2gz25bauak3xcnbm
+      ts-jest: 29.0.3_fxe5mizohawh6cjruma5lyyrna
+
+  packages/experimental-styles:
+    specifiers:
+      '@evatrium/configs': workspace:*
+      '@evatrium/utils': workspace:*
+      react: ^16.8 || ^17 || ^18
+      react-dom: ^16.8 || ^17 || ^18
+      style-vendorizer: ^2.2.3
+    dependencies:
+      '@evatrium/utils': link:../utils
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      style-vendorizer: 2.2.3
+    devDependencies:
+      '@evatrium/configs': link:../configs
 
   packages/hooks:
+    specifiers:
+      '@evatrium/configs': workspace:*
+      '@evatrium/utils': workspace:*
+      react: ^16.8 || ^17 || ^18
+      react-dom: ^16.8 || ^17 || ^18
+    dependencies:
+      '@evatrium/utils': link:../utils
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@evatrium/configs': link:../configs
+
+  packages/ui:
     specifiers:
       '@evatrium/configs': workspace:*
       '@evatrium/utils': workspace:*
@@ -8859,6 +8887,10 @@ packages:
       acorn: 8.8.1
     dev: true
 
+  /style-vendorizer/2.2.3:
+    resolution: {integrity: sha512-/VDRsWvQAgspVy9eATN3z6itKTuyg+jW1q6UoTCQCFRqPDw8bi3E1hXIKnGw5LvXS2AQPuJ7Af4auTLYeBOLEg==}
+    dev: false
+
   /stylis/4.0.13:
     resolution: {integrity: sha512-xGPXiFVl4YED9Jh7Euv2V220mriG9u4B2TA6Ybjc1catrstKD2PpIdU3U0RKpkVBC2EhmL/F0sPCr9vrFTNRag==}
     dev: false
@@ -9054,6 +9086,40 @@ packages:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
     dev: true
 
+  /ts-jest/29.0.3_fxe5mizohawh6cjruma5lyyrna:
+    resolution: {integrity: sha512-Ibygvmuyq1qp/z3yTh9QTwVVAbFdDy/+4BtIQR2sp6baF2SJU/8CKK/hhnGIDY2L90Az2jIqTwZPnN2p+BweiQ==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    hasBin: true
+    peerDependencies:
+      '@babel/core': '>=7.0.0-beta.0 <8'
+      '@jest/types': ^29.0.0
+      babel-jest: ^29.0.0
+      esbuild: '*'
+      jest: ^29.0.0
+      typescript: '>=4.3'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@jest/types':
+        optional: true
+      babel-jest:
+        optional: true
+      esbuild:
+        optional: true
+    dependencies:
+      '@babel/core': 7.19.6
+      bs-logger: 0.2.6
+      fast-json-stable-stringify: 2.1.0
+      jest: 29.2.2
+      jest-util: 29.2.1
+      json5: 2.2.1
+      lodash.memoize: 4.1.2
+      make-error: 1.3.6
+      semver: 7.3.8
+      typescript: 4.8.4
+      yargs-parser: 21.1.1
+    dev: true
+
   /ts-jest/29.0.3_hucu3bj3dorfakok3tsxe7r4bu:
     resolution: {integrity: sha512-Ibygvmuyq1qp/z3yTh9QTwVVAbFdDy/+4BtIQR2sp6baF2SJU/8CKK/hhnGIDY2L90Az2jIqTwZPnN2p+BweiQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -9080,39 +9146,6 @@ packages:
       esbuild: 0.15.12
       fast-json-stable-stringify: 2.1.0
       jest: 29.2.2_2263m44mchjafa7bz7l52hbcpa
-      jest-util: 29.2.1
-      json5: 2.2.1
-      lodash.memoize: 4.1.2
-      make-error: 1.3.6
-      semver: 7.3.8
-      typescript: 4.8.4
-      yargs-parser: 21.1.1
-    dev: true
-
-  /ts-jest/29.0.3_r7gdwuj75x2gz25bauak3xcnbm:
-    resolution: {integrity: sha512-Ibygvmuyq1qp/z3yTh9QTwVVAbFdDy/+4BtIQR2sp6baF2SJU/8CKK/hhnGIDY2L90Az2jIqTwZPnN2p+BweiQ==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    hasBin: true
-    peerDependencies:
-      '@babel/core': '>=7.0.0-beta.0 <8'
-      '@jest/types': ^29.0.0
-      babel-jest: ^29.0.0
-      esbuild: '*'
-      jest: ^29.0.0
-      typescript: '>=4.3'
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
-      '@jest/types':
-        optional: true
-      babel-jest:
-        optional: true
-      esbuild:
-        optional: true
-    dependencies:
-      bs-logger: 0.2.6
-      fast-json-stable-stringify: 2.1.0
-      jest: 29.2.2
       jest-util: 29.2.1
       json5: 2.2.1
       lodash.memoize: 4.1.2
