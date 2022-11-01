@@ -1,0 +1,41 @@
+{
+  "name": "{{name}}",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "lint": "TIMING=1 eslint \"src/**/*.ts*\"",
+    "preview": "vite preview",
+    "https-preview": "serve dist",
+    "test": "exit 0",
+    "test:watch": "exit 0"
+  },
+  "peerDependencies": {
+    "react": "^16.8 || ^17 || ^18",
+    "react-dom": "^16.8 || ^17 || ^18"
+  },
+  "dependencies": {
+    "@evatrium/utils": "workspace:*",
+    "@evatrium/hooks": "workspace:*",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0"
+  },
+  "devDependencies": {
+    "@evatrium/configs": "workspace:*"
+  }
+}

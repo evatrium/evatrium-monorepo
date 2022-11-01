@@ -39,6 +39,7 @@ importers:
       turbo: ^1.6.0
       typescript: ^4.8.4
       vite: ^3.1.8
+      vite-plugin-pwa: ^0.12.0
       vitest: ^0.24.3
       workbox-window: ^6.5.4
     dependencies:
@@ -79,7 +80,23 @@ importers:
       turbo: 1.6.1
       typescript: 4.8.4
       vite: 3.1.8
+      vite-plugin-pwa: 0.12.8_2txo4viysstjrz5b6oxcrxybay
       vitest: 0.24.3_jsdom@20.0.1
+
+  apps/experimentalStyles:
+    specifiers:
+      '@evatrium/configs': workspace:*
+      '@evatrium/hooks': workspace:*
+      '@evatrium/utils': workspace:*
+      react: ^18.1.0
+      react-dom: ^18.1.0
+    dependencies:
+      '@evatrium/hooks': link:../../packages/ui
+      '@evatrium/utils': link:../../packages/utils
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@evatrium/configs': link:../../packages/configs
 
   apps/pwa:
     specifiers:
@@ -154,11 +171,15 @@ importers:
 
   packages/configs:
     specifiers:
+      '@evatrium/utils': workspace:*
       '@types/jest': ^26.0.24
       ts-jest: ^29.0.3
+      vite-plugin-pwa: '*'
     devDependencies:
+      '@evatrium/utils': link:../utils
       '@types/jest': 26.0.24
       ts-jest: 29.0.3_fxe5mizohawh6cjruma5lyyrna
+      vite-plugin-pwa: 0.12.8_2txo4viysstjrz5b6oxcrxybay
 
   packages/experimental-styles:
     specifiers:
@@ -9530,6 +9551,24 @@ packages:
   /vary/1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
+    dev: true
+
+  /vite-plugin-pwa/0.12.8_2txo4viysstjrz5b6oxcrxybay:
+    resolution: {integrity: sha512-pSiFHmnJGMQJJL8aJzQ8SaraZBSBPMGvGUkCNzheIq9UQCEk/eP3UmANNmS9eupuhIpTK8AdxTOHcaMcAqAbCA==}
+    peerDependencies:
+      vite: ^2.0.0 || ^3.0.0-0
+      workbox-build: ^6.4.0
+      workbox-window: ^6.4.0
+    dependencies:
+      debug: 4.3.4
+      fast-glob: 3.2.12
+      pretty-bytes: 6.0.0
+      rollup: 2.79.1
+      vite: 3.1.8
+      workbox-build: 6.5.4
+      workbox-window: 6.5.4
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /vite-plugin-pwa/0.12.8_mzzo5qdcantp6obyzixnpsysz4:
