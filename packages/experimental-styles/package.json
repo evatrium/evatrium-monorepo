@@ -23,9 +23,10 @@
   ],
   "scripts": {
     "dev": "tsup src/index.ts --format esm,cjs --watch --dts",
-    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "build": "tsup src/index.ts --format esm,cjs --dts --minify",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "lint": "TIMING=1 eslint \"src/**/*.ts*\"",
+    "lint:fix": "TIMING=1 eslint \"src/**/*.ts*\" --fix",
     "_test": "jest --watch",
     "__test": "jest --selectProjects dom ssr",
     "___test": "vitest",

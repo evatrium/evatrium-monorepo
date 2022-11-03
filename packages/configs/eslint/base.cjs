@@ -37,7 +37,8 @@ module.exports = {
       'warn',
       'single',
       {
-        avoidEscape: true
+        avoidEscape: true,
+        allowTemplateLiterals: true
       }
     ],
     'prettier/prettier': [

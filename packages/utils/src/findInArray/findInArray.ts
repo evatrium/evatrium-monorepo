@@ -8,8 +8,8 @@ import { getMatchBy, MatchByOptions } from '~/getMatchBy';
  * @returns - the item you are looking for
  */
 export const findInArray = (arr: any[], searchValue: any, options?: MatchByOptions) => {
-	const itemsMatch = getMatchBy(options);
-	return arr.find((arrItem) => itemsMatch(arrItem, searchValue));
+  const itemsMatch = getMatchBy(options);
+  return arr.find((arrItem) => itemsMatch(arrItem, searchValue));
 };
 
 /**
@@ -18,6 +18,6 @@ export const findInArray = (arr: any[], searchValue: any, options?: MatchByOptio
  * @param options {matchBy, matchByOnValue}
  */
 export const createFindInArray = (options?: MatchByOptions) => {
-	const itemsMatch = getMatchBy(options);
-	return (arr: any[], item: any) => arr.find((arrItem) => itemsMatch(arrItem, item));
+  const itemsMatch = getMatchBy(options);
+  return (arr: any[], item: any) => arr.find((arrItem) => itemsMatch(arrItem, item));
 };

@@ -1,5 +1,5 @@
-import { useSafeState } from '~/useSafeState';
 import { useCallback } from 'react';
+import { useSafeState } from '~/useSafeState';
 
 export const useToggle = (defaultBool?: boolean): [boolean, (override?: boolean) => void] => {
   const [bool, setBool] = useSafeState(!!defaultBool);

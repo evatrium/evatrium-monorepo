@@ -2,13 +2,21 @@
   "extends": "@evatrium/configs/ts/tsconfig.react-lib.json",
   "include": [
     "./src",
-    "vite.config.ts",
+    "vite.config.ts"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
   ],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "~/*": [
         "src/*"
+      ],
+      "@evatrium/configs": [
+        "../../configs/*"
       ]
     },
     "lib": [

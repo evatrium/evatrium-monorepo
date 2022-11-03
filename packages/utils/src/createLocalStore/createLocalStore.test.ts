@@ -1,53 +1,53 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { createLocalStore } from '~/createLocalStore';
 import { wait } from '~/wait';
 
 describe('createLocalStore', () => {
-	it('should stringify and parse values from local storage', async () => {
-		const ls = createLocalStore({ debounceTime: 10 });
+  it('should stringify and parse values from local storage', async () => {
+    const ls = createLocalStore({ debounceTime: 10 });
 
-		const item = { foo: 'bar' };
+    const item = { foo: 'bar' };
 
-		ls.setItem('test', item);
+    ls.setItem('test', item);
 
-		expect(ls.getItem('nope')).toBe(null);
+    expect(ls.getItem('nope')).toBe(null);
 
-		expect(ls.getItem('test')).toMatchObject(item);
+    expect(ls.getItem('test')).toMatchObject(item);
 
-		ls.removeItem('test');
+    ls.removeItem('test');
 
-		expect(ls.getItem('test')).toBe(null);
+    expect(ls.getItem('test')).toBe(null);
 
-		ls.setItemDebounced('foo', item);
+    ls.setItemDebounced('foo', item);
 
-		await wait(20);
+    await wait(20);
 
-		expect(ls.getItem('foo')).toMatchObject(item);
+    expect(ls.getItem('foo')).toMatchObject(item);
 
-		ls.clear();
+    ls.clear();
 
-		expect(ls.getItem('foo')).toBe(null);
-	});
+    expect(ls.getItem('foo')).toBe(null);
+  });
 
-	it('should subscribe to storage events', async () => {
-		const spyOnMe = {
-			func: () => void 0
-		};
-		const funcSpy = vi.spyOn(spyOnMe, 'func');
+  it('should subscribe to storage events', async () => {
+    const spyOnMe = {
+      func: () => void 0
+    };
+    const funcSpy = vi.spyOn(spyOnMe, 'func');
 
-		const ls = createLocalStore({ debounceTime: 10 });
+    const ls = createLocalStore({ debounceTime: 10 });
 
-		ls.subscribeToKey('test', spyOnMe.func);
+    ls.subscribeToKey('test', spyOnMe.func);
 
-		// @TODO: jsdom testing env doesn't emit the correct storage event
-		// window.addEventListener('storage', (...args)=>{
-		// 	console.log(...args);
-		// })
+    // @TODO: jsdom testing env doesn't emit the correct storage event
+    // window.addEventListener('storage', (...args)=>{
+    // 	console.log(...args);
+    // })
 
-		window.dispatchEvent(new Event('storage'));
+    window.dispatchEvent(new Event('storage'));
 
-		await wait(10);
+    await wait(10);
 
-		expect(funcSpy).toBeCalledTimes(1);
-	});
+    expect(funcSpy).toBeCalledTimes(1);
+  });
 });

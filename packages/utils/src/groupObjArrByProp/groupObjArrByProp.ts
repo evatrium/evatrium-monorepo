@@ -61,18 +61,18 @@ import { isFunc } from '~/isType/isFunc';
  * ]
  */
 export const groupObjArrByProp = (
-	objArr: ObjArr,
-	getGroupNameFromObj: string | ((item: Obj) => string),
-	shouldGroup = (groupName: string) => !!groupName
+  objArr: ObjArr,
+  getGroupNameFromObj: string | ((item: Obj) => string),
+  shouldGroup = (groupName: string) => !!groupName
 ) => {
-	const groups: Obj = {};
-	const others: ObjArr = [];
-	objArr.forEach((item: Obj) => {
-		const groupName = isFunc(getGroupNameFromObj)
-			? getGroupNameFromObj(item)
-			: item[getGroupNameFromObj];
-		const shouldGroupIt = shouldGroup(groupName);
-		(shouldGroupIt ? groups[groupName] || (groups[groupName] = []) : others).push(item);
-	});
-	return [groups, others];
+  const groups: Obj = {};
+  const others: ObjArr = [];
+  objArr.forEach((item: Obj) => {
+    const groupName = isFunc(getGroupNameFromObj)
+      ? getGroupNameFromObj(item)
+      : item[getGroupNameFromObj];
+    const shouldGroupIt = shouldGroup(groupName);
+    (shouldGroupIt ? groups[groupName] || (groups[groupName] = []) : others).push(item);
+  });
+  return [groups, others];
 };

@@ -4,8 +4,6 @@ import {
   RefObject
 } from 'react';
 import { useSafeState } from '~/useSafeState';
-import { useTimeout } from '~/useTimeout';
-import { clearTimeout } from 'timers';
 /*
   inspired by @react-hookz/web
   added additional behavior options:
@@ -195,7 +193,7 @@ export const useIntersection = <T extends Element>(
 
     observerEntry.observe(tgt, handler);
 
-    if (!!eagerTimeout) {
+    if (eagerTimeout) {
       timeout = setTimeout(() => {
         clearAll();
         setState({ isIntersecting: true } as IntersectionObserverEntry);

@@ -8,4 +8,4 @@ import { isObjectType } from '~/isType/isObjectType';
  * - and .constructor === Object
  */
 export const isObj = (value: any): boolean =>
-	!isNullOrUndefined(value) && isObjectType(value) && value?.constructor === Object;
+  !isNullOrUndefined(value) && isObjectType(value) && value?.constructor === Object;

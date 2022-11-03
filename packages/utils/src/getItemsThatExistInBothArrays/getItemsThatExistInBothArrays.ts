@@ -9,6 +9,6 @@ type Options = Omit<MatchByOptions, 'matchByOnValue'>;
  * @param options
  */
 export const getItemsThatExistInBothArrays = (arr1: any[], arr2: any[], options?: Options) => {
-	const isInArray = createFindInArray({ ...options, matchByOnValue: true });
-	return [...arr1].filter((value) => isInArray(arr2, value));
+  const isInArray = createFindInArray({ ...options, matchByOnValue: true });
+  return [...arr1].filter((value) => isInArray(arr2, value));
 };

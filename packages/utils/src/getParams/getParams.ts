@@ -5,4 +5,4 @@ import { isWeb } from '~/isWeb';
  * @param string
  */
 export const getParams = (string?: string) =>
-	Object.fromEntries(new URLSearchParams(string || (isWeb() ? location.search : '')));
+  Object.fromEntries(new URLSearchParams(string || (isWeb() ? location.search : '')));

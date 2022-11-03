@@ -18,8 +18,8 @@ export default function vitestit(override) {
     test: {
       globals: true,
       watch: false,
-      environment: 'jsdom',
-      setupFiles: '@evatrium/configs/vite/vitest-setup.ts',
+      environment: 'jsdom', //../../packages
+      setupFiles: '@evatrium/configs/vite/test/vitest-setup.js',
       resolveSnapshotPath: (testPath, snapExtension) => testPath + snapExtension,
       include: ['src/**/*.test.ts', 'src/**/*.test.tsx']
     }

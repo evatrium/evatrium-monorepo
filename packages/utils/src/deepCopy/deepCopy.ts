@@ -7,17 +7,17 @@ export type SimpleDeepCopy = <T>(data: T, _copier?: SimpleDeepCopy) => T;
  * For more robust features, use fast-copy - @see https://github.com/planttheidea/fast-copy
  */ // T extends JsonLikeType
 export const simpleDeepCopy: SimpleDeepCopy = (data, _copier?) => {
-	_copier = _copier || simpleDeepCopy;
-	const isArr = Array.isArray(data);
-	if (isArr || isObj(data)) {
-		const copy: any = isArr ? [] : {};
-		for (const key in data) {
-			if (key === '__proto__') continue;
-			copy[key] = _copier(data[key], _copier);
-		}
-		return copy;
-	}
-	return data;
+  _copier = _copier || simpleDeepCopy;
+  const isArr = Array.isArray(data);
+  if (isArr || isObj(data)) {
+    const copy: any = isArr ? [] : {};
+    for (const key in data) {
+      if (key === '__proto__') continue;
+      copy[key] = _copier(data[key], _copier);
+    }
+    return copy;
+  }
+  return data;
 };
 
 // export type SimpleDeepCopy<T> = T extends JsonType ? JsonType :
@@ -29,8 +29,8 @@ export const simpleDeepCopy: SimpleDeepCopy = (data, _copier?) => {
  * For more robust features, use fast-copy - @see https://github.com/planttheidea/fast-copy
  */
 export const deepCopy = <T>(data: T): any => {
-	if (isDateObject(data)) return new Date(data);
-	else if (isSet(data)) return new Set(data);
-	else if (isMap(data)) return new Map(data);
-	return simpleDeepCopy(data, deepCopy);
+  if (isDateObject(data)) return new Date(data);
+  else if (isSet(data)) return new Set(data);
+  else if (isMap(data)) return new Map(data);
+  return simpleDeepCopy(data, deepCopy);
 };

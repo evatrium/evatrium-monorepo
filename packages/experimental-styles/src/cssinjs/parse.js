@@ -8,15 +8,24 @@ export const cleanJss = () => removals.map((f) => f && f());
 let globalRules = [];
 const allRules = [];
 
-export const sheet = ({ id = 'main', isMedia, global } = {}) => {
+export const sheet = (options = {}) => {
+  let { id = 'main', isMedia, global } = options;
+
+  if (global) id = 'global';
   const name = getName(id);
-  global = global || id === 'global';
   if (sheets[name]) return sheets[name];
 
-  sheets[name] = { rules: [], id, name, isMedia, remove: () => 0 };
+  sheets[name] = {
+    rules: [],
+    id,
+    name,
+    isMedia,
+    insert: () => {},
+    remove: () => {}
+  };
 
   const altInsert = (rule) => {
-    !global && allRules.push(rule);
+    if (!global) allRules.push(rule);
     sheets[name].rules.push(rule);
   };
 
@@ -26,19 +35,14 @@ export const sheet = ({ id = 'main', isMedia, global } = {}) => {
 
   let style = document.head.querySelector('#' + name);
 
-  const creatStyle = () => {
-    style = document.createElement('style');
-    style.setAttribute('id', name);
-    document.head.appendChild(style);
-    sheets[name].insert = getInsert(style);
-  };
-
   const getInsert = (style) => {
     let insertRule;
     if (isMedia) {
       style.sheet.insertRule(`${id}{}`);
       const mediaRule = style.sheet.cssRules[0];
-      insertRule = (rule) => mediaRule.insertRule(rule, mediaRule.cssRules.length);
+      insertRule = (rule) => {
+        mediaRule.insertRule(rule, mediaRule.cssRules.length);
+      };
     } else {
       if (global) {
         insertRule = (rule) => {
@@ -46,10 +50,22 @@ export const sheet = ({ id = 'main', isMedia, global } = {}) => {
           globalRules.push(rule);
         };
       } else {
-        insertRule = (rule) => style.sheet.insertRule(rule, style.sheet.cssRules.length);
+        insertRule = (rule) => {
+          style.sheet.insertRule(rule, style.sheet.cssRules.length);
+        };
       }
     }
-    return (rule) => (altInsert(rule), insertRule(rule));
+    return (rule) => {
+      altInsert(rule);
+      insertRule(rule);
+    };
+  };
+
+  const creatStyle = () => {
+    style = document.createElement('style');
+    style.setAttribute('id', name);
+    document.head.appendChild(style);
+    sheets[name].insert = getInsert(style);
   };
 
   if (!style) creatStyle();
@@ -58,7 +74,6 @@ export const sheet = ({ id = 'main', isMedia, global } = {}) => {
     creatStyle();
     removals.push(() => {
       prevStyle.remove();
-      console.log('cleaned');
     });
   }
 
@@ -120,7 +135,7 @@ export const parse = (obj, child = '', media) => {
       }
       const _key = key + val + child + media;
       if (cache[_key]) return cache[_key];
-      let cn = classNamePrefix + makeClassName(allRules.length + 1); //allRules.length.toString(36);
+      let cn = classNamePrefix + allRules.length.toString(36);
       let rule = makeRule(cn, child, key, val);
       sheet({ id: media || 'main', isMedia: media }).insert(rule);
       cache[_key] = cn;

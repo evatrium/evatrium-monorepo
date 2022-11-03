@@ -20,10 +20,10 @@ type ValueGetter = (item: Obj) => number;
  *
  */
 export const getTotalOfPropInObjArr = (objArr: ObjArr, prop: string | ValueGetter, initial = 0) => {
-	const propGetterIsFunc = isFunc(prop);
-	return objArr.reduce((acc: number, curr: Obj) => {
-		const val = propGetterIsFunc ? prop(curr) : curr[prop];
-		if (isNum(val)) acc += val;
-		return acc;
-	}, initial);
+  const propGetterIsFunc = isFunc(prop);
+  return objArr.reduce((acc: number, curr: Obj) => {
+    const val = propGetterIsFunc ? prop(curr) : curr[prop];
+    if (isNum(val)) acc += val;
+    return acc;
+  }, initial);
 };

@@ -12,7 +12,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": [
+        "src/*"
+      ],
+      "@evatrium/configs": [
+        "../../configs/*"
+      ]
     },
     "lib": [
       "dom",

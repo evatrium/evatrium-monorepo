@@ -1,4 +1,4 @@
-import { isFunc, isObj } from '@evatrium/utils';
+import { isFunc, isObj, deepMerge } from '@evatrium/utils';
 
 export const marginPaddingFns = {
   m: (value) => ({ margin: value }),
@@ -64,5 +64,7 @@ export const withThemeSystem = (declarations, theme) => {
       }
     }
     return out;
+  } else if (Array.isArray(declarations)) {
+    return declarations.reduce((acc, curr) => deepMerge(acc, withThemeSystem(curr, theme)), {});
   } else return declarations;
 };

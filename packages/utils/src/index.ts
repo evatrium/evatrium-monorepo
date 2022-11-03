@@ -37,4 +37,5 @@ export * from './url';
 export * from './wait';
 export * from './types';
 export * from './harmonicInterval';
+export * from './weakMemoize';
 // GENERATED EXPORTS

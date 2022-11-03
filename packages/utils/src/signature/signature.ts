@@ -7,8 +7,8 @@ import { isObjOrArr } from '~/isType';
  * here is a more robust solution: https://github.com/streamich/fastest-stable-stringify
  */
 export const signature = (data: any): string => {
-	if (!isObjOrArr(data)) return `${data}`;
-	let out = ''; // @ts-ignore
-	for (const key in data) out += `${key}${signature(data[key])}`;
-	return out;
+  if (!isObjOrArr(data)) return `${data}`;
+  let out = ''; // @ts-ignore
+  for (const key in data) out += `${key}${signature(data[key])}`;
+  return out;
 };

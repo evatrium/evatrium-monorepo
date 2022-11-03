@@ -1,6 +1,6 @@
 export type DebouncedFunc<TFunc extends (this: any, ...args: any[]) => any> = {
-	cancel: () => void;
-	(this: ThisParameterType<TFunc>, ...args: Parameters<TFunc>): void;
+  cancel: () => void;
+  (this: ThisParameterType<TFunc>, ...args: Parameters<TFunc>): void;
 };
 
 /**
@@ -26,22 +26,22 @@ export type DebouncedFunc<TFunc extends (this: any, ...args: any[]) => any> = {
  *
  */
 export function debounce<TFunc extends (this: any, ...newArgs: any[]) => void>(
-	func: TFunc,
-	wait = 0
+  func: TFunc,
+  wait = 0
 ): DebouncedFunc<TFunc> {
-	let timeout: any;
+  let timeout: any;
 
-	function debounced(this: ThisParameterType<TFunc>, ...newArgs: Parameters<TFunc>) {
-		const later = () => {
-			func.apply(this, newArgs);
-		};
-		clearTimeout(timeout);
-		timeout = setTimeout(later, wait);
-	}
+  function debounced(this: ThisParameterType<TFunc>, ...newArgs: Parameters<TFunc>) {
+    const later = () => {
+      func.apply(this, newArgs);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  }
 
-	debounced.cancel = () => {
-		clearTimeout(timeout);
-	};
+  debounced.cancel = () => {
+    clearTimeout(timeout);
+  };
 
-	return debounced;
+  return debounced;
 }

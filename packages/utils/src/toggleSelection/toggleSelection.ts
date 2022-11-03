@@ -3,7 +3,7 @@ import { findInArray } from '~/findInArray';
 import { excludeItemsFromArray } from '~/excludeItemsFromArray';
 
 type ToggleSelectionOptions = Omit<MatchByOptions, 'matchByOnValue'> & {
-	returnAction?: boolean;
+  returnAction?: boolean;
 };
 
 // attempt to type the conditional return type
@@ -26,28 +26,28 @@ type ToggleSelectionOptions = Omit<MatchByOptions, 'matchByOnValue'> & {
  * @returns - options.returnAction ? [updatedArray, {removed?:[], added?:[]} : updatedArray
  */
 export const toggleSelection = (
-	selections: any[],
-	item: any,
-	options?: ToggleSelectionOptions
+  selections: any[],
+  item: any,
+  options?: ToggleSelectionOptions
 ): [any[], { added: any[] } | { removed: any[] }] | any[] => {
-	const { matchBy, returnAction } = options || {};
+  const { matchBy, returnAction } = options || {};
 
-	const matchByOnValue = !!matchBy;
+  const matchByOnValue = !!matchBy;
 
-	let out, action;
+  let out, action;
 
-	if (!findInArray(selections, item, { matchBy, matchByOnValue })) {
-		out = [...selections, item];
-		action = { added: item };
-	} else {
-		const [update, removed] = excludeItemsFromArray(selections, [item], {
-			matchBy,
-			matchByOnValue,
-			returnRemoved: true
-		});
-		out = update;
-		action = { removed };
-	}
+  if (!findInArray(selections, item, { matchBy, matchByOnValue })) {
+    out = [...selections, item];
+    action = { added: item };
+  } else {
+    const [update, removed] = excludeItemsFromArray(selections, [item], {
+      matchBy,
+      matchByOnValue,
+      returnRemoved: true
+    });
+    out = update;
+    action = { removed };
+  }
 
-	return returnAction ? [out, action] : out;
+  return returnAction ? [out, action] : out;
 };

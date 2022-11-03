@@ -12,12 +12,12 @@ import { isEmpty } from '~/isEmpty';
  * 	console.log(placeToGo); // foo/bar?id=123
  */
 export const url = (strings: TemplateStringsArray, ...interpolations: any[]) =>
-	strings.reduce((out, string, i) => {
-		let value = interpolations[i];
-		if (isObj(value)) {
-			value = isEmpty(value) ? '' : `${string.endsWith('?') ? '' : '?'}${stringifyParams(value)}`;
-		}
-		if (value === undefined) value = '';
-		out += `${string}${value}`;
-		return out;
-	}, '');
+  strings.reduce((out, string, i) => {
+    let value = interpolations[i];
+    if (isObj(value)) {
+      value = isEmpty(value) ? '' : `${string.endsWith('?') ? '' : '?'}${stringifyParams(value)}`;
+    }
+    if (value === undefined) value = '';
+    out += `${string}${value}`;
+    return out;
+  }, '');

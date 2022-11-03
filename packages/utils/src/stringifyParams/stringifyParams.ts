@@ -3,10 +3,10 @@
  * @param obj
  */
 export const stringifyParams = (obj: Record<string, any>) => {
-	// const params = new URLSearchParams({});
-	// for (let key in obj) params.append(key, encodeURIComponent(obj[key]));
-	// return params.toString();
-	return new URLSearchParams(obj).toString();
+  // const params = new URLSearchParams({});
+  // for (let key in obj) params.append(key, encodeURIComponent(obj[key]));
+  // return params.toString();
+  return new URLSearchParams(obj).toString();
 };
 
 /* // old version

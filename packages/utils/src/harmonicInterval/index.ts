@@ -1,1 +1,1 @@
-export * from './harmonicInterval'
+export * from './harmonicInterval';

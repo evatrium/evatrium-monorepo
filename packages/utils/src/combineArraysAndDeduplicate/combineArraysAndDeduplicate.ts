@@ -8,5 +8,5 @@ import { MatchByOptions } from '~/getMatchBy';
  * @param options
  */
 export const combineArraysAndDeduplicate = (arr1: any[], arr2: any[], options?: MatchByOptions) => {
-	return [...arr1, ...excludeItemsFromArray(arr2, arr1, options)];
+  return [...arr1, ...excludeItemsFromArray(arr2, arr1, options)];
 };

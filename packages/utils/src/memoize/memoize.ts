@@ -2,9 +2,9 @@ import { signature } from '~/signature';
 
 export type MemoizedCache = { [key: string]: any }; // Record<string, any>;
 export type MemoizedFn<TFunc extends (this: any, ...args: any[]) => any> = {
-	clear: () => void;
-	cache: MemoizedCache;
-	(this: ThisParameterType<TFunc>, ...args: Parameters<TFunc>): ReturnType<TFunc>;
+  clear: () => void;
+  cache: MemoizedCache;
+  (this: ThisParameterType<TFunc>, ...args: Parameters<TFunc>): ReturnType<TFunc>;
 };
 
 /**
@@ -14,39 +14,39 @@ export type MemoizedFn<TFunc extends (this: any, ...args: any[]) => any> = {
  * call "yourMemoizedFunction.clear()" to reset the cache
  * @example
  *
- * 		const memoizedFunc = memoize((derp,asdf)=>{
+ *    const memoizedFunc = memoize((derp,asdf)=>{
  * 		  const results = computeSomething(derp, asdf);
  * 		  return results;
  * 		});
  *
- * 		//....
+ *    //....
  *
- * 		<button onClick={()=> memoizedFunc(id, 'foobar')}	...
+ *    <button onClick={()=> memoizedFunc(id, 'foobar')}  ...
  */
 export function memoize<TFunc extends (this: any, ...newArgs: any[]) => any>(
-	fn: TFunc
+  fn: TFunc
 ): MemoizedFn<TFunc> {
-	const cache: MemoizedCache = Object.create(null);
+  const cache: MemoizedCache = Object.create(null);
 
-	function memoized(
-		this: ThisParameterType<TFunc>,
-		...newArgs: Parameters<TFunc>
-	): ReturnType<TFunc> | any {
-		const keyLookup = signature(newArgs);
-		let val = memoized.cache[keyLookup];
-		if (val === undefined) {
-			val = memoized.cache[keyLookup] = fn.apply(this, newArgs);
-		}
-		return val;
-	}
+  function memoized(
+    this: ThisParameterType<TFunc>,
+    ...newArgs: Parameters<TFunc>
+  ): ReturnType<TFunc> | any {
+    const keyLookup = signature(newArgs);
+    let val = memoized.cache[keyLookup];
+    if (val === undefined) {
+      val = memoized.cache[keyLookup] = fn.apply(this, newArgs);
+    }
+    return val;
+  }
 
-	memoized.cache = cache;
+  memoized.cache = cache;
 
-	memoized.clear = () => {
-		memoized.cache = Object.create(null);
-	};
+  memoized.clear = () => {
+    memoized.cache = Object.create(null);
+  };
 
-	return memoized;
+  return memoized;
 }
 
 /*

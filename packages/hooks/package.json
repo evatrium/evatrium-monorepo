@@ -25,6 +25,7 @@
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "lint": "TIMING=1 eslint \"src/**/*.ts*\"",
+    "lint:fix": "eslint \"src/**/*.ts*\" --fix",
     "_test": "jest --watch",
     "__test": "jest --selectProjects dom ssr",
     "test": "vitest",

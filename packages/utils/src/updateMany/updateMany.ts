@@ -3,8 +3,8 @@ import { ObjArr } from '~/types';
 import { DeepMerge, deepMerge } from '~/deepMerge';
 
 export type UpdateManyOptions = Omit<MatchByOptions, 'matchByOnValue'> & {
-	matchBy: MatchBy;
-	updateFn?: DeepMerge;
+  matchBy: MatchBy;
+  updateFn?: DeepMerge;
 };
 
 /**
@@ -18,23 +18,23 @@ export type UpdateManyOptions = Omit<MatchByOptions, 'matchByOnValue'> & {
  * @returns - a new array containing the updates
  */
 export const updateMany = (array: ObjArr, selections: ObjArr, options: UpdateManyOptions) => {
-	const { matchBy, updateFn = deepMerge } = options || {};
-	const itemsMatch = getMatchBy({ matchBy, matchByOnValue: true });
+  const { matchBy, updateFn = deepMerge } = options || {};
+  const itemsMatch = getMatchBy({ matchBy, matchByOnValue: true });
 
-	array = [...array];
+  array = [...array];
 
-	for (let arrayIndex = 0; arrayIndex < array.length; arrayIndex++) {
-		for (let selectionsIndex = 0; selectionsIndex < selections.length; selectionsIndex++) {
-			const arrayItem = array[arrayIndex],
-				selectionsItem = selections[selectionsIndex];
+  for (let arrayIndex = 0; arrayIndex < array.length; arrayIndex++) {
+    for (let selectionsIndex = 0; selectionsIndex < selections.length; selectionsIndex++) {
+      const arrayItem = array[arrayIndex],
+        selectionsItem = selections[selectionsIndex];
 
-			if (arrayItem && selectionsItem && itemsMatch(arrayItem, selectionsItem)) {
-				const result = updateFn(arrayItem, selectionsItem);
+      if (arrayItem && selectionsItem && itemsMatch(arrayItem, selectionsItem)) {
+        const result = updateFn(arrayItem, selectionsItem);
 
-				if (result) array[arrayIndex] = result;
-			}
-		} // nested for
-	} // outer for
+        if (result) array[arrayIndex] = result;
+      }
+    } // nested for
+  } // outer for
 
-	return array;
+  return array;
 };

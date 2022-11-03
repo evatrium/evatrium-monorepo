@@ -9,8 +9,8 @@ export type MatchBy = string | ItemsMatchFunc;
 const defaultItemsMatch: ItemsMatchFunc = (arrItem, searchValue) => arrItem === searchValue;
 
 export type MatchByOptions = {
-	matchBy?: MatchBy;
-	matchByOnValue?: boolean;
+  matchBy?: MatchBy;
+  matchByOnValue?: boolean;
 };
 /**
  * returns an equality checker function for:
@@ -28,12 +28,12 @@ export type MatchByOptions = {
  *  	N/A when custom equality checker function is passed to matchBy
  */
 export const getMatchBy = (options?: MatchByOptions): ItemsMatchFunc => {
-	const { matchBy, matchByOnValue } = options || {};
-	if (isString(matchBy)) {
-		return (arrItem: ObjOrArrType, searchValue: any) => {
-			const it = matchByOnValue ? getIn(searchValue, matchBy) : searchValue;
-			return getIn(arrItem, matchBy) === it;
-		};
-	}
-	return isFunc(matchBy) ? matchBy : defaultItemsMatch;
+  const { matchBy, matchByOnValue } = options || {};
+  if (isString(matchBy)) {
+    return (arrItem: ObjOrArrType, searchValue: any) => {
+      const it = matchByOnValue ? getIn(searchValue, matchBy) : searchValue;
+      return getIn(arrItem, matchBy) === it;
+    };
+  }
+  return isFunc(matchBy) ? matchBy : defaultItemsMatch;
 };
