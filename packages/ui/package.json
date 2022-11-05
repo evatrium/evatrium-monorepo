@@ -21,7 +21,7 @@
     "dist/**"
   ],
   "scripts": {
-    "dev": "tsup src/index.ts --format esm,cjs --watch --dts",
+    "_dev": "tsup src/index.ts --format esm,cjs --watch --dts",
     "_build": "tsup src/index.ts --format esm,cjs --dts",
     "build": "exit 0",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",

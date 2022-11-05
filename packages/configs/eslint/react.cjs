@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const base = require('./base.cjs');
+const base = require('@evatrium/configs/eslint/base.cjs');
 
 module.exports = {
   ...base,

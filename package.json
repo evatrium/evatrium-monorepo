@@ -10,29 +10,12 @@
   "bugs": {
     "url": "https://github.com/evatrium/evatrium-monorepo/issues"
   },
-  "_": {
-    "workspaces": {
-      "packages": [
-        "packages/*",
-        "apps/*"
-      ],
-      "nohoist": [
-        "**/*"
-      ]
-    },
-    "packageManager": "yarn@1.22.10",
-    "engines": {
-      "node": ">=14.0.0",
-      "yarn": ">=1.22.10"
-    }
-  },
   "packageManager": "pnpm@7.14.2",
   "engines": {
     "node": ">=18.9.1",
     "pnpm": ">=7.14.2"
   },
   "scripts": {
-    "_install": "pnpm install",
     "build": "turbo run build",
     "_dev": "turbo run dev --parallel",
     "test": "turbo run test",

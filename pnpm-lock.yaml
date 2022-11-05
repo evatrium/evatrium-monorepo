@@ -85,16 +85,14 @@ importers:
       vite-plugin-pwa: 0.12.8_2txo4viysstjrz5b6oxcrxybay
       vitest: 0.24.3_jsdom@20.0.1
 
-  apps/sandbox:
+  experiments/cssinjs:
     specifiers:
       '@evatrium/configs': workspace:*
-      '@evatrium/experimental-styles': workspace:*
       '@evatrium/hooks': workspace:*
       '@evatrium/utils': workspace:*
       react: ^18.1.0
       react-dom: ^18.1.0
     dependencies:
-      '@evatrium/experimental-styles': link:../../packages/experimental-styles
       '@evatrium/hooks': link:../../packages/hooks
       '@evatrium/utils': link:../../packages/utils
       react: 18.2.0
@@ -111,21 +109,6 @@ importers:
       '@types/jest': 26.0.24
       ts-jest: 29.0.3_fxe5mizohawh6cjruma5lyyrna
       vite-plugin-pwa: 0.12.8_2txo4viysstjrz5b6oxcrxybay
-
-  packages/experimental-styles:
-    specifiers:
-      '@evatrium/configs': workspace:*
-      '@evatrium/utils': workspace:*
-      react: ^16.8 || ^17 || ^18
-      react-dom: ^16.8 || ^17 || ^18
-      style-vendorizer: ^2.2.3
-    dependencies:
-      '@evatrium/utils': link:../utils
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      style-vendorizer: 2.2.3
-    devDependencies:
-      '@evatrium/configs': link:../configs
 
   packages/hooks:
     specifiers:
@@ -7337,10 +7320,6 @@ packages:
     dependencies:
       acorn: 8.8.1
     dev: true
-
-  /style-vendorizer/2.2.3:
-    resolution: {integrity: sha512-/VDRsWvQAgspVy9eATN3z6itKTuyg+jW1q6UoTCQCFRqPDw8bi3E1hXIKnGw5LvXS2AQPuJ7Af4auTLYeBOLEg==}
-    dev: false
 
   /sucrase/3.28.0:
     resolution: {integrity: sha512-TK9600YInjuiIhVM3729rH4ZKPOsGeyXUwY+Ugu9eilNbdTFyHr6XcAGYbRVZPDgWj6tgI7bx95aaJjHnbffag==}

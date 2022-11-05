@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Dom",
-  "extends": "./tsconfig.base.json",
+  "extends": "@evatrium/configs/ts/tsconfig.base.json",
   "compilerOptions": {
     "lib": [
       "dom",

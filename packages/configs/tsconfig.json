@@ -1,5 +1,5 @@
 {
-  "extends": "./ts/tsconfig.base.json",
+  "extends": "@evatrium/configs/ts/tsconfig.base.json",
   "exclude": [
     "node_modules"
   ],

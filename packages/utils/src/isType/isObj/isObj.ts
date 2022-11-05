@@ -7,5 +7,5 @@ import { isObjectType } from '~/isType/isObjectType';
  * - not null
  * - and .constructor === Object
  */
-export const isObj = (value: any): boolean =>
+export const isObj = (value: any): value is Record<keyof any, unknown> =>
   !isNullOrUndefined(value) && isObjectType(value) && value?.constructor === Object;

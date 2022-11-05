@@ -27,6 +27,7 @@ export * from './memoize';
 export * from './miscelany';
 export * from './pluck';
 export * from './propsChanged';
+export * from './resolveState';
 export * from './shallowEqual';
 export * from './signature';
 export * from './toggleSelection';
