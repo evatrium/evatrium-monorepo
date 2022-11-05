@@ -1,17 +1,15 @@
 import '~/styles/globalStyles';
-import { createOverridableStyles, styles } from '~/styles';
-import { useToggle } from '@evatrium/hooks';
-import { Box } from '~/components/Box';
-import { useMemo } from 'react';
-import { createButton } from '~/components/Button';
+import {createOverridableStyles, styles} from '~/styles';
+import {useToggle} from '@evatrium/hooks';
+
 
 const asdf = {
-  color: { xs: 'white', sm: 'blue', md: 'red' },
+  color: {xs: 'white', sm: 'blue', md: 'red'},
   '&:hover': {
     color: 'green'
   }
 };
-const Button = createButton();
+
 
 const useStyles = createOverridableStyles(asdf);
 
@@ -37,7 +35,7 @@ export const App = () => {
 
       <h1 className={className}>Hello!</h1>
       <h2>{className}</h2>
-      <Button sx={{ color: 'purple' }}>hello</Button>
+
     </>
   );
 };

@@ -6,6 +6,7 @@ export * from './createSubscription';
 export * from './debounce';
 export * from './deepCopy';
 export * from './deepMerge';
+export * from './deepMergeSimple';
 export * from './endpoint';
 export * from './eventListener';
 export * from './excludeItemsFromArray';

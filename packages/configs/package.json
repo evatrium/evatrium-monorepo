@@ -4,6 +4,9 @@
   "private": true,
   "license": "MIT",
   "type": "module",
+  "scripts": {
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+  },
   "devDependencies": {
     "@types/jest": "^26.0.24",
     "ts-jest": "^29.0.3",

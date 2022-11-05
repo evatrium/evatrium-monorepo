@@ -1,5 +1,5 @@
-import { isObj } from '~/isType';
-import { ObjOrArrType } from '~/types';
+import {isObj} from '~/isType';
+import {ObjOrArrType} from '~/types';
 
 // https://youmightnotneed.com/lodash/
 // toPath('a[0].b.c') // => ['a', '0', 'b', 'c']
@@ -8,9 +8,9 @@ const toPath = (path: string) => path.match(/([^[.\]])+/g) || [];
 /**
  * Dot walk to deeply get a value from a nested object or array 'via.its.path'.
  * @example
- * 	const obj = {a:{b:{c:["foobar"]}}}
- * 	const value = getIn(obj, 'a.b.c[0]', 'fallback');
- * 	console.log(value) //-> foobar
+ *  const obj = {a:{b:{c:["foobar"]}}}
+ *  const value = getIn(obj, 'a.b.c[0]', 'fallback');
+ *  console.log(value) //-> foobar
  * @param objOrArr - the target you want to query
  * @param path - dot walk / bracket select to the item. ex: 'a.b.c[0]'
  * @param fallback - the default value if the item doesn't exist
@@ -31,7 +31,7 @@ export function getIn(
 /**
  * Deeply set a value in a nested object or array via its path
  * @example
- *	const obj = {a:{b:{c:["foobar"]}}};
+ *  const obj = {a:{b:{c:["foobar"]}}};
  *  const result = setIn(obj, 'a.b.c[1]', 'asdf');
  *  console.log(result) //-> {a:{b:{c:["foobar", "asdf"]}}}
  *
@@ -43,7 +43,7 @@ export function getIn(
  * @param value - the value you want to set in that path
  */
 export function setIn(objOrArr: ObjOrArrType, path: string, value: any): any {
-  const res: any = Array.isArray(objOrArr) ? [...objOrArr] : { ...objOrArr };
+  const res: any = Array.isArray(objOrArr) ? [...objOrArr] : { ...objOrArr};
   let resVal: any = res;
   let i = 0;
   const pathArray = toPath(path);
@@ -52,7 +52,7 @@ export function setIn(objOrArr: ObjOrArrType, path: string, value: any): any {
     const currentObj = getIn(objOrArr, pathArray.slice(0, i + 1));
     let isArr;
     if (currentObj && (isObj(currentObj) || (isArr = Array.isArray(currentObj)))) {
-      resVal = resVal[currentPath] = isArr ? [...currentObj] : { ...currentObj };
+      resVal = resVal[currentPath] = isArr ? [...(currentObj as any[])] : {...currentObj};
     } else {
       const nextPath = pathArray[i + 1];
       resVal = resVal[currentPath] = isInteger(nextPath) && Number(nextPath) >= 0 ? [] : {};

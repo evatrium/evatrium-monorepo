@@ -1,13 +1,14 @@
 {
   "extends": "@evatrium/configs/ts/tsconfig.base.json",
   "include": [
-    "./src",
+    "./src/**/*",
     "vite.config.ts"
   ],
   "exclude": [
     "node_modules",
     ".plop",
-    "dist"
+    "dist",
+    "./src/**/*.{test}.{ts,tsx,js,jsx}"
   ],
   "compilerOptions": {
     "baseUrl": ".",
