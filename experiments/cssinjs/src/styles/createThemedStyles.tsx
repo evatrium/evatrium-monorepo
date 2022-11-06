@@ -1,7 +1,10 @@
-import { isFunc, signature } from '@evatrium/utils';
+import { isFunc, signature, weakMemoize } from '@evatrium/utils';
 import { parse } from './parse';
 import { withThemeSystem } from '~/styles/withThemeSystem.js';
 import { Theme, Obj, StyleObjOrFunc, ClassesObj, JoinedClassNamesString } from '~/styles/types';
+import { theme } from '~/styles/theme';
+import { useMemo } from 'react';
+import { styles } from '~/styles/index';
 
 type OptionalArrayOfStyleObjOrFunc = StyleObjOrFunc | StyleObjOrFunc[];
 
@@ -18,7 +21,7 @@ export const createThemedStyles = (theme: Theme) => {
     declarationsCache[cacheKey] = className;
     return className;
   };
-  const styles = (
+  const styleIt = (
     styleObjOrFunc: OptionalArrayOfStyleObjOrFunc,
     declarationsOnly?: boolean
   ): any => {
@@ -39,5 +42,5 @@ export const createThemedStyles = (theme: Theme) => {
     }
     return cssClasses;
   };
-  return styles;
+  return styleIt;
 };

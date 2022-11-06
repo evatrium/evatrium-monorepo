@@ -12,6 +12,8 @@ const TESTER = 'aASDasdfFASDFsasdfdf';
 let markersInitialized = false;
 const GLOBAL = 'global';
 const GLOBAL_MEDIA = 'globalmedia';
+const UTILITIES = 'utilities';
+const UTILITIES_MEDIA = 'utilitiesmedia';
 const COMPONENTS = 'components';
 const COMPONENTS_MEDIA = 'componentsmedia';
 const CUSTOM = 'custom';
@@ -19,6 +21,8 @@ const CUSTOM_MEDIA = 'custommedia';
 const markers = {
   GLOBAL,
   GLOBAL_MEDIA,
+  UTILITIES,
+  UTILITIES_MEDIA,
   COMPONENTS,
   COMPONENTS_MEDIA,
   CUSTOM,
@@ -29,14 +33,13 @@ type MarkerElementsMap = {
 };
 const markerElements: MarkerElementsMap = {};
 const CSSINJS_ATTR = 'data-evatrium-css';
-const classNamePrefix: { [ns: string]: string } = {
-  [GLOBAL]: 'a-',
-  [GLOBAL_MEDIA]: 'b-',
-  [COMPONENTS]: 'c-',
-  [COMPONENTS_MEDIA]: 'd-',
-  [CUSTOM]: 'e-',
-  [CUSTOM_MEDIA]: 'c-'
-};
+const classNamePrefix: { [ns: string]: string } = Object.values(markers).reduce(
+  (acc, curr, i) => ({
+    ...acc,
+    [curr]: `a${i}-`
+  }),
+  {}
+);
 
 const initializeMarkers = () => {
   Object.values(markers).forEach((namespace) => {

@@ -1,18 +1,9 @@
 import '~/styles/globalStyles';
-import {createOverridableStyles, styles} from '~/styles';
-import {useToggle} from '@evatrium/hooks';
+import { createOverridableStyles, styles } from '~/styles';
+import { useToggle } from '@evatrium/hooks';
 
-
-const asdf = {
-  color: {xs: 'white', sm: 'blue', md: 'red'},
-  '&:hover': {
-    color: 'green'
-  }
-};
-
-
-const useStyles = createOverridableStyles(asdf);
-
+import { BlackBox } from '~/styles/v2';
+import { useMemo } from 'react';
 // const className = styles(asdf, true);
 // console.log(className);
 // const Button = () => {
@@ -20,22 +11,24 @@ const useStyles = createOverridableStyles(asdf);
 // };
 export const App = () => {
   const [bool, toggle] = useToggle(false);
-
-  const className = useStyles(
-    bool && {
-      '&:hover': {
-        color: 'purple'
-      }
-    },
-    [bool]
+  const sx2 = useMemo(
+    () => ({
+      background: 'pink',
+      width: 100
+    }),
+    []
   );
   return (
     <>
       {bool ? 'true' : 'false'}
+      <BlackBox
+        size={bool ? 'sm' : 'lg'}
+        onClick={() => {
+          toggle();
+        }}
+      />
 
-      <h1 className={className}>Hello!</h1>
-      <h2>{className}</h2>
-
+      {bool && <BlackBox size={'lg'} sx={sx2} />}
     </>
   );
 };
