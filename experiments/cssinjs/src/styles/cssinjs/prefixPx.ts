@@ -1,8 +1,9 @@
 import { cssPropertyAlias, cssPropertyPrefixFlags, cssValuePrefixFlags } from 'style-vendorizer';
+import { isNum } from '@evatrium/utils';
 
 // yoinked from goober
-const prefixCache = {};
-export const prefix = (property, value) => {
+const prefixCache: { [key: string]: string } = {};
+export const prefix = (property: string, value: string) => {
   const pv = property + value;
   if (prefixCache[pv]) return prefixCache[pv];
   let cssText = '';
@@ -29,21 +30,31 @@ export const prefix = (property, value) => {
   prefixCache[pv] = cssText;
   return cssText;
 };
-
+// yoinked from preact
 const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i;
 // yoinked from csx
-const hyph = (prop) =>
+const hyph = (prop: string) =>
   prop[0] === '-' && prop[1] === '-' ? prop : prop.replace(/[A-Z]/g, '-$&').toLowerCase();
+const addPx = (prop: string, val: string | number): string =>
+  !isNum(val) || val === 0 || IS_NON_DIMENSIONAL.test(prop) ? `${val}` : val + 'px';
 
-const addPx = (prop, val) =>
-  typeof val !== 'number' || val === 0 || IS_NON_DIMENSIONAL.test(prop) ? val : val + 'px';
+let decsCache: { [key: string]: string } = {};
 
-let decsCache = {};
-export const prefixPx = (prop, val) => {
+export type Prefix = '-webkit-' | '-moz-' | '-ms';
+export type PrefixedProperty = string;
+export type PrefixedValue = string;
+// @ts-ignore // TODO
+export type Prefixed = `${Prefix}${PrefixedProperty}:${PrefixedValue};${Prefixed | string}`; // TODO
+export type PrefixerOfChoice = (property: string, value: string) => Prefixed;
+let prefixerOfChoice: PrefixerOfChoice = prefix;
+export const setPrefixer = (prefixer: PrefixerOfChoice) => {
+  prefixerOfChoice = prefixer;
+};
+export const prefixPx = (prop: string, val: string | number) => {
   let key = prop + val;
   if (decsCache[key]) return decsCache[key];
   let p = hyph(prop);
-  let dec = prefix(p, addPx(prop, val));
+  let dec = prefixerOfChoice(p, addPx(prop, val));
   decsCache[key] = dec;
   return dec;
 };

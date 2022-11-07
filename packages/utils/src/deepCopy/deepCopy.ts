@@ -1,4 +1,4 @@
-import { isObj, isDateObject, isSet, isMap } from '~/isType';
+import { isObj, isDateObject, isSet, isMap, isArr } from '~/isType';
 
 export type SimpleDeepCopy = <T>(data: T, _copier?: SimpleDeepCopy) => T;
 /**
@@ -8,9 +8,9 @@ export type SimpleDeepCopy = <T>(data: T, _copier?: SimpleDeepCopy) => T;
  */ // T extends JsonLikeType
 export const simpleDeepCopy: SimpleDeepCopy = (data, _copier?) => {
   _copier = _copier || simpleDeepCopy;
-  const isArr = Array.isArray(data);
-  if (isArr || isObj(data)) {
-    const copy: any = isArr ? [] : {};
+  const isAr = isArr(data);
+  if (isAr || isObj(data)) {
+    const copy: any = isAr ? [] : {};
     for (const key in data) {
       if (key === '__proto__') continue;
       copy[key] = _copier(data[key], _copier);

@@ -37,16 +37,16 @@ describe('signature', () => {
     let y = { b: x, c: x };
     expect(signature(y)).toBe('{"b":{"a":1},"c":{"a":1}}');
   });
-  // it('should convert data into a stringified thumbprint ', () => {
-  //   const jss = {
-  //     width: {
-  //       xs: '100%',
-  //       sm: '50%'
-  //     },
-  //     color: ['blue', 'red', 'purple']
-  //   };
-  //   expect(signature(jss)).toBe('widthxs100%sm50%color0blue1red2purple');
-  //   expect(signature([jss])).toBe('0widthxs100%sm50%color0blue1red2purple');
-  //   expect(signature(null)).toBe('null');
-  // });
+  it('should convert data into a stringified thumbprint ', () => {
+    const jss = {
+      width: {
+        xs: '100%',
+        sm: '50%'
+      },
+      color: ['blue', 'red', 'purple']
+    };
+    expect(signature.fast(jss)).toBe('widthxs100%sm50%color0blue1red2purple');
+    expect(signature.fast([jss])).toBe('0widthxs100%sm50%color0blue1red2purple');
+    expect(signature.fast(null)).toBe('null');
+  });
 });

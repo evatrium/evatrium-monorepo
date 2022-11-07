@@ -1,19 +1,19 @@
-import { prefix } from './prefixer';
-import { isObj, stringify } from '@iosio/util';
-import { getName } from '~/getName.js';
-
-const createClasses = (jssClasses = {}, declarations) => {
-  if (declarations) return parse(jssClasses);
-  let cssClasses = {};
-  for (let classKey in jssClasses) cssClasses[classKey] = parse(jssClasses[classKey]);
-  return cssClasses;
-};
-
-export const CreateThemedJssToSimpleGlobalCssStyles = (theme) => (styles) => {
-  let css = typeof styles === 'function' ? styles(theme) : styles;
-  // console.log(css);
-  jsToRules(css).forEach((rule) => sheets({ id: 'global', global: true }).insert(rule));
-};
+// import { prefix } from './prefixer';
+// import { isObj, stringify } from '@iosio/util';
+// import { getName } from '~/getName.js';
+//
+// const createClasses = (jssClasses = {}, declarations) => {
+//   if (declarations) return parse(jssClasses);
+//   let cssClasses = {};
+//   for (let classKey in jssClasses) cssClasses[classKey] = parse(jssClasses[classKey]);
+//   return cssClasses;
+// };
+//
+// export const CreateThemedJssToSimpleGlobalCssStyles = (theme) => (styles) => {
+//   let css = typeof styles === 'function' ? styles(theme) : styles;
+//   // console.log(css);
+//   jsToRules(css).forEach((rule) => sheets({ id: 'global', global: true }).insert(rule));
+// };
 
 //
 //

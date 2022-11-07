@@ -1,5 +1,5 @@
 import { ObjOrArrType } from '~/types';
-import { isObj, isFunc } from '~/isType';
+import { isObj, isFunc, isArr } from '~/isType';
 
 type DeepMergeOptions = {
   clone?: boolean;
@@ -30,8 +30,8 @@ export const deepMerge: DeepMerge = (
   source,
   options: DeepMergeOptions = { clone: true, arrayMerge: 'overwrite' }
 ) => {
-  const tArr = Array.isArray(target);
-  const sArr = Array.isArray(source);
+  const tArr = isArr(target);
+  const sArr = isArr(source);
   const tObj = isObj(target);
   const sObj = isObj(source);
   const bothArr = tArr && sArr;
@@ -44,7 +44,6 @@ export const deepMerge: DeepMerge = (
   if (options.clone) out = tArr ? [...target] : { ...target };
 
   if (bothArr && isFunc(options.arrayMerge)) {
-    // @ts-ignore
     return options.arrayMerge(out, source, options);
   }
 
@@ -53,7 +52,11 @@ export const deepMerge: DeepMerge = (
       if (key === '__proto__') {
         continue;
       }
-      out[key] = deepMerge(target[key], source[key], options);
+      (out as typeof target)[key as keyof typeof target] = deepMerge(
+        (target as typeof source)[key as keyof typeof source],
+        (source as typeof target)[key], // TODO: fix types??
+        options
+      );
     }
     return out;
   }

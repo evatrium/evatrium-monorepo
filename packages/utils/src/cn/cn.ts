@@ -1,4 +1,4 @@
-import { isNum, isObjectType, isString } from '~/isType';
+import { isNum, isObjectType, isString, isArr } from '~/isType';
 
 /**
  * conditional classname string builder
@@ -26,7 +26,7 @@ const toVal = (mix: any) => {
     str = '';
   if (isString(mix) || isNum(mix)) str += mix;
   else if (isObjectType(mix)) {
-    if (Array.isArray(mix))
+    if (isArr(mix))
       for (k = 0; k < mix.length; k++) {
         mix[k] && (y = toVal(mix[k])) && (str = whtspc(str, y));
       }

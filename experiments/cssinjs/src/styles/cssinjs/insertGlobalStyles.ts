@@ -1,6 +1,7 @@
-import { prefixPx } from './prefixPx';
-import { Obj, StyleObject } from '~/styles/types';
-import { isObj } from '@evatrium/utils';
+import { StyleObject, StyleObjOrFunc, Theme } from '~/styles/types';
+import { isFunc, isObj } from '@evatrium/utils';
+import { prefixPx } from '~/styles/cssinjs/prefixPx';
+import { markers, sheets } from '~/styles/cssinjs/parse';
 
 export const jsToRules = (styleObj: StyleObject) => {
   let rules = [];
@@ -22,4 +23,9 @@ export const jsToRules = (styleObj: StyleObject) => {
     rules.push(`${key}{${declarations}}`);
   }
   return rules;
+};
+
+export const insertGlobalStyles = (theme: Theme, styleObjOrFunc: StyleObjOrFunc) => {
+  let css = isFunc(styleObjOrFunc) ? styleObjOrFunc(theme) : styleObjOrFunc;
+  jsToRules(css).forEach((rule) => sheets({ namespace: markers.GLOBAL }).insert(rule));
 };

@@ -1,17 +1,10 @@
-import { isObjOrArr } from '~/isType';
+import { isObj, isArr } from '~/isType';
 
 /**
- * nonstandard stringify
- * quickly converts serializable data into string thumbprint
- * for things like cache key lookup.
- * here is a more robust solution: https://github.com/streamich/fastest-stable-stringify
+ * signature
+ * stable stringify
+ * converts serializable data into string thumbprint
  */
-// export const signature = (data: any): string => {
-//   if (!isObjOrArr(data)) return `${data}`;
-//   let out = ''; // @ts-ignore
-//   for (const key in data) out += `${key}${signature(data[key])}`;
-//   return out;
-// };
 
 const keyList = Object.keys;
 const stringy = JSON.stringify;
@@ -69,6 +62,24 @@ function stringify(val: any, allowUndefined?: boolean): string | undefined | nul
   }
 }
 
-export const signature = (obj: any): string => {
+/**
+ * stringify - fast
+ * quickly converts serializable data into string thumbprint
+ * for things like cache key lookup.
+ */
+const fast = (data: any): string => {
+  const isArrr = isArr(data),
+    isObject = isObj(data);
+  if (!(isArrr || isObject)) return `${data}`;
+  let out = '';
+  for (const key in data) out += `${key}${fast(data[key])}`;
+  return out;
+};
+
+const signature = (obj: any): string => {
   return '' + stringify(obj, false);
 };
+
+signature.fast = fast;
+
+export { signature };

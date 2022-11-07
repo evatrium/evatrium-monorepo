@@ -2,48 +2,55 @@ import { prefixPx } from './prefixPx';
 import { isObj, isWeb } from '@evatrium/utils';
 import type { CssInJsStore, NestedStyleObject, StyleObject, SheetsOptions } from '~/styles/types';
 
+type ObjStr = { [key: string]: string };
 const store: CssInJsStore = {
   sheets: {},
   allRules: [],
   removals: [],
   parsed: {}
 };
-const TESTER = 'aASDasdfFASDFsasdfdf';
+
 let markersInitialized = false;
-const GLOBAL = 'global';
-const GLOBAL_MEDIA = 'globalmedia';
-const UTILITIES = 'utilities';
-const UTILITIES_MEDIA = 'utilitiesmedia';
-const COMPONENTS = 'components';
-const COMPONENTS_MEDIA = 'componentsmedia';
-const CUSTOM = 'custom';
-const CUSTOM_MEDIA = 'custommedia';
-const markers = {
+const GLOBAL = 'g';
+const GLOBAL_MEDIA = 'gm';
+const UTILITIES = 'u';
+const UTILITIES_MEDIA = 'um';
+const COMPONENTS = 'c';
+const COMPONENTS_MEDIA = 'cm';
+const OVERRIDES = 'o';
+const OVERRIDES_MEDIA = 'om';
+const EXTRA = 'x';
+const EXTRA_MEDIA = 'xm';
+export const markers: ObjStr = {
   GLOBAL,
   GLOBAL_MEDIA,
   UTILITIES,
   UTILITIES_MEDIA,
   COMPONENTS,
   COMPONENTS_MEDIA,
-  CUSTOM,
-  CUSTOM_MEDIA
-};
+  OVERRIDES,
+  OVERRIDES_MEDIA,
+  EXTRA,
+  EXTRA_MEDIA
+} as const;
+
 type MarkerElementsMap = {
   [namespace: string]: HTMLStyleElement;
 };
+
 const markerElements: MarkerElementsMap = {};
-const CSSINJS_ATTR = 'data-evatrium-css';
-const classNamePrefix: { [ns: string]: string } = Object.values(markers).reduce(
-  (acc, curr, i) => ({
-    ...acc,
-    [curr]: `a${i}-`
-  }),
-  {}
-);
+const CSSINJS_ATTR = 'data-eva';
+
+const flip = (obj: ObjStr) =>
+  Object.keys(obj).reduce((acc, curr) => {
+    acc[obj[curr]] = curr;
+    return acc;
+  }, {} as ObjStr);
+const namespaces = flip(markers);
 
 const initializeMarkers = () => {
   Object.values(markers).forEach((namespace) => {
-    const attr = `${CSSINJS_ATTR}-${namespace}-before-me`;
+    const attr = `${CSSINJS_ATTR}-${namespace}`;
     let el: HTMLStyleElement = document.head.querySelector(`[${attr}]`)!;
     if (!el) {
       el = document.createElement('style');
@@ -55,14 +62,15 @@ const initializeMarkers = () => {
   markersInitialized = true;
 };
 
-const safeName = (name: string) => name.replace(/[^a-z0-9]+/gi, '');
-
 export const sheets = ({ namespace, media = '' }: SheetsOptions) => {
   if (!markersInitialized) initializeMarkers();
+  namespace = namespace in namespaces ? namespace : EXTRA;
   const marker = namespace;
   const name = namespace + media;
-  if (store.sheets[name]) return store.sheets[name];
-  const attrValue = namespace + (media ? `-${safeName(media)}` : '');
+
+  if (store.sheets[name]) return store.sheets[name]; //----- i got what i need!
+
+  const attrValue = namespace + (media ? `m-${makeNameMoreConcise(media)}` : '');
   store.sheets[name] = {
     rules: [],
     namespace,
@@ -90,7 +98,7 @@ export const sheets = ({ namespace, media = '' }: SheetsOptions) => {
 
     (markerElements[marker].parentNode as HTMLElement).insertBefore(
       style,
-      markerElements[marker + (media ? 'media' : '')]
+      markerElements[marker + (media ? 'm' : '')]
     );
 
     const s = style.sheet as CSSStyleSheet;
@@ -125,7 +133,7 @@ export const sheets = ({ namespace, media = '' }: SheetsOptions) => {
 const noAnd = (s: string) => s.replace(/&/g, '').trim();
 const makeRule = (cn: string, child: string, key: string, val: string) =>
   `.${cn + noAnd(child)}{${prefixPx(key, val)}}`;
-const makeClassName = (cn: string) => cn + store.allRules.length.toString(36);
+const makeClassName = (cn: string) => `${cn}-` + store.allRules.length.toString(36);
 
 // csx inspired yet customized
 export const parse = (obj: NestedStyleObject, namespace: string) => {
@@ -140,7 +148,7 @@ export const parse = (obj: NestedStyleObject, namespace: string) => {
           const nextChild = isAtMediaKey ? child : child + key;
           return parser(val as StyleObject, nextChild, isAtMediaKey || media);
         }
-        const ns = classNamePrefix[namespace] || 'x';
+        const ns = (namespace || EXTRA) + (media ? 'm' : '');
         const parseKey = ns + key + val + child + media;
         if (store.parsed[parseKey]) return store.parsed[parseKey];
         let cn = makeClassName(ns);
@@ -155,6 +163,7 @@ export const parse = (obj: NestedStyleObject, namespace: string) => {
 };
 
 // grab the custom sheet's css text for server side rendering
+// TODO: update with markers
 const getSheets = () => {
   let s = [];
   for (let name in store.sheets) {
@@ -170,3 +179,18 @@ const getSheets = () => {
   }
   return s;
 };
+const fixCache: ObjStr = {};
+const makeNameMoreConcise = (name: string) =>
+  fixCache[name] ||
+  (fixCache[name] = name
+    .replace('media', '')
+    .replace('min', 'mn')
+    .replace('max', 'mx')
+    .replace('width', 'w')
+    .replace('px', '')
+    .replace(/[^a-z0-9]+/gi, ''));
+// setTimeout(() => {
+//   Object.keys(store.sheets).map((key) => {
+//     console.log(store.sheets[key]);
+//   });
+// }, 1000);

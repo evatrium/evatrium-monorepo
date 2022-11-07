@@ -1,9 +1,13 @@
-import { deepMergeSimple } from '@evatrium/utils';
-import { Box } from '~/components/Box';
-import { styles } from '~/styles';
-import { NestedStyleObject, Theme } from '~/styles/types';
+import { Theme } from '~/styles/types';
+import { ComponentPropsWithRef, FC } from 'react';
+import { Box, BoxProps, useBoxProps, useStyles } from '~/styles';
 
-const buttonBaseStyles = (theme: Theme, overrides?: NestedStyleObject) => {
+interface ButtonVariants {
+  variant?: 'default' | 'outlined' | 'subtle' | 'text';
+}
+
+// TODO: finish theming/palette ..etc
+const buttonStyles = (theme: Theme, variants: ButtonVariants) => {
   const classes = {
     root: {
       display: 'inline-flex',
@@ -48,20 +52,19 @@ const buttonBaseStyles = (theme: Theme, overrides?: NestedStyleObject) => {
       })
     }
   };
-  return overrides ? deepMergeSimple(classes, overrides) : classes;
+  return classes;
 };
 
-export const createButton = ({ overrides } = {}) => {
-  const buttonStyles = styles((theme) => buttonBaseStyles(theme, overrides));
-  return function Button({ sx, className, classes, sxDeps, ...rest }) {
-    return (
-      <Box
-        component={'button'}
-        classes={[buttonStyles.root, classes, className]}
-        sx={sx}
-        sxDeps={sxDeps}
-        {...rest}
-      />
-    );
-  };
+type ButtonProps = BoxProps & ComponentPropsWithRef<'button'> & ButtonVariants;
+
+export const Button: FC<ButtonProps> = ({ variant, children, ...rest }) => {
+  const btn = useStyles(buttonStyles, {
+    variants: { variant }
+  });
+
+  return (
+    <Box component={'button'} className={btn.root} {...rest}>
+      {children}
+    </Box>
+  );
 };

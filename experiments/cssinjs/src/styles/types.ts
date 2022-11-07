@@ -1,3 +1,6 @@
+import { ObjOrArrType } from '@evatrium/utils';
+import { markers } from '~/styles/cssinjs/parse';
+
 export type Obj = {
   [key: string]: any;
 };
@@ -31,7 +34,8 @@ export type Theme = {
   transitions?: any;
 };
 
-export type StyleObjOrFunc = Obj | ((theme: Theme) => Obj);
+export type StyleFunc = (theme: Theme, variants?: Obj) => Obj;
+export type StyleObjOrFunc = Obj | StyleFunc;
 
 export type JoinedClassNamesString = string;
 
@@ -58,3 +62,11 @@ export type StyleObject = Record<any, any>;
 export type NestedStyleObject = Record<any, StyleObject>;
 export type SheetsOptions = { namespace: string; media?: undefined | string };
 export {};
+
+export type StylesProcessingOptions = {
+  theme?: Theme;
+  variants?: ObjOrArrType;
+  declarations?: boolean;
+  styles?: StyleObjOrFunc;
+  namespace?: typeof markers[keyof typeof markers];
+};

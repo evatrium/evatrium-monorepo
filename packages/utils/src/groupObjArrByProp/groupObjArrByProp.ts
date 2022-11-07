@@ -7,30 +7,30 @@ import { isFunc } from '~/isType/isFunc';
  * @param getGroupNameFromObj - string or function to extract the group name from the item
  * @param shouldGroup - validates the group name
  * @returns [
- * 	groups = {
+ *  groups = {
  * 	  [key: groupName]: ObjArr
  * 	},
- * 	others: ObjArr
+ *  others: ObjArr
  * ]
  *
  *
  * @example
  *
  * const movies = [
- * 	{ genre: "comedy", name: "idiocracy" },
- * 	{ genre: "scifi", name: "ex machina" },
- * 	{ genre: "scifi", name: "the matrix" },
- * 	{ name: "the revenant" }
+ *  { genre: "comedy", name: "idiocracy" },
+ *  { genre: "scifi", name: "ex machina" },
+ *  { genre: "scifi", name: "the matrix" },
+ *  { name: "the revenant" }
  * ];
  *
  * const [groups, others] = groupObjArrByProp(
- * 	movies,
- * 	"genre" // or pass a function: (movie) => movie.genre ? capitalize(movie.genre): false
+ *  movies,
+ *  "genre" // or pass a function: (movie) => movie.genre ? capitalize(movie.genre): false
  * );
  *
  * console.log(
- * 	groups,
- * 	others
+ *  groups,
+ *  others
  * );
  *
  * // groups: (object: grouped on key)
@@ -65,12 +65,12 @@ export const groupObjArrByProp = (
   getGroupNameFromObj: string | ((item: Obj) => string),
   shouldGroup = (groupName: string) => !!groupName
 ) => {
-  const groups: Obj = {};
+  const groups: { [key: string]: any[] } = {};
   const others: ObjArr = [];
   objArr.forEach((item: Obj) => {
-    const groupName = isFunc(getGroupNameFromObj)
-      ? getGroupNameFromObj(item)
-      : item[getGroupNameFromObj];
+    const groupName = (
+      isFunc(getGroupNameFromObj) ? getGroupNameFromObj(item) : item[getGroupNameFromObj]
+    ) as string;
     const shouldGroupIt = shouldGroup(groupName);
     (shouldGroupIt ? groups[groupName] || (groups[groupName] = []) : others).push(item);
   });

@@ -1,3 +1,4 @@
+export * from './isArr';
 export * from './isBigInt';
 export * from './isBool';
 export * from './isDateObject';

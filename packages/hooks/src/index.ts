@@ -1,5 +1,7 @@
 export * from './createStateContext';
 export * from './useDebounce';
+export * from './useDeepEqualEffect';
+export * from './useDeepEqualMemo';
 export * from './useDidMount';
 export * from './useEventListener';
 export * from './useIntersection';

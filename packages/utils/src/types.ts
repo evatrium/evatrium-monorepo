@@ -1,14 +1,15 @@
 // export type ObjOrArrType = Record<string | number, any> | Array<any>;
 
-export type Obj = { [key: string | number]: any };
+export type Obj = Record<keyof any, unknown>;
 export type ObjArr = Obj[];
 
 export type ObjOrArrType =
   | Obj
+  | { [key: string | number | symbol]: any }
   | Array<any>
   | ObjOrArrType[]
   | ObjArr
-  | { [key: string | number]: ObjOrArrType };
+  | { [key: string | number | symbol]: ObjOrArrType };
 
 export type PrimitiveType = null | undefined | string | number | boolean | symbol | bigint;
 

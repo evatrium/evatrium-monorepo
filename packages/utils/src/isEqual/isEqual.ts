@@ -1,4 +1,4 @@
-import { isObj, isDateObject, isPrimitive } from '~/isType';
+import { isObj, isDateObject, isPrimitive, isArr } from '~/isType';
 
 /**
  * deeply compares nested objects and nested arrays,
@@ -18,7 +18,7 @@ export const isEqual = (x: any, y: any): boolean => {
     if (
       (isDateObject(val1) && isDateObject(val2)) ||
       (isObj(val1) && isObj(val2)) ||
-      (Array.isArray(val1) && Array.isArray(val2))
+      (isArr(val1) && isArr(val2))
         ? !isEqual(val1, val2)
         : val1 !== val2
     )

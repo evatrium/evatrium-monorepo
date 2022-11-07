@@ -10,9 +10,9 @@ type ValueGetter = (item: Obj) => number;
  *
  * @example
  * const objArr = [
- * 	{num: 1},
- * 	{num: 1},
- * 	{num: 1},
+ *  {num: 1},
+ *  {num: 1},
+ *  {num: 1},
  * ];
  *
  * const result = getTotalOfPropInObjArr(objArr, 'num');
@@ -23,7 +23,7 @@ export const getTotalOfPropInObjArr = (objArr: ObjArr, prop: string | ValueGette
   const propGetterIsFunc = isFunc(prop);
   return objArr.reduce((acc: number, curr: Obj) => {
     const val = propGetterIsFunc ? prop(curr) : curr[prop];
-    if (isNum(val)) acc += val;
+    if (isNum(val)) acc += val as number;
     return acc;
   }, initial);
 };

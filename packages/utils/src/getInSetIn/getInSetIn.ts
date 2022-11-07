@@ -1,5 +1,5 @@
-import {isObj} from '~/isType';
-import {ObjOrArrType} from '~/types';
+import { isObj, isArr } from '~/isType';
+import { ObjOrArrType } from '~/types';
 
 // https://youmightnotneed.com/lodash/
 // toPath('a[0].b.c') // => ['a', '0', 'b', 'c']
@@ -21,7 +21,7 @@ export function getIn(
   fallback?: any
 ) {
   let p = 0;
-  const pathArray = Array.isArray(path) ? path : toPath(path);
+  const pathArray = isArr(path) ? path : toPath(path);
   while (objOrArr && p < pathArray.length) {
     objOrArr = objOrArr[<any>pathArray[p++]];
   }
@@ -43,16 +43,16 @@ export function getIn(
  * @param value - the value you want to set in that path
  */
 export function setIn(objOrArr: ObjOrArrType, path: string, value: any): any {
-  const res: any = Array.isArray(objOrArr) ? [...objOrArr] : { ...objOrArr};
+  const res: any = isArr(objOrArr) ? [...objOrArr] : { ...objOrArr };
   let resVal: any = res;
   let i = 0;
   const pathArray = toPath(path);
   for (; i < pathArray.length - 1; i++) {
     const currentPath = pathArray[i];
     const currentObj = getIn(objOrArr, pathArray.slice(0, i + 1));
-    let isArr;
-    if (currentObj && (isObj(currentObj) || (isArr = Array.isArray(currentObj)))) {
-      resVal = resVal[currentPath] = isArr ? [...(currentObj as any[])] : {...currentObj};
+    let isArrr;
+    if (currentObj && (isObj(currentObj) || (isArrr = isArr(currentObj)))) {
+      resVal = resVal[currentPath] = isArrr ? [...(currentObj as any[])] : { ...currentObj };
     } else {
       const nextPath = pathArray[i + 1];
       resVal = resVal[currentPath] = isInteger(nextPath) && Number(nextPath) >= 0 ? [] : {};
