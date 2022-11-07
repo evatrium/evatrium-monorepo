@@ -41,7 +41,8 @@ const stableOverrides = {
   background: 'pink',
   width: 100
 };
-export const App = () => {
+
+const App = () => {
   const [bool, toggle] = useToggle(false);
   // const sx2 = useMemo(
   //   () => ({
@@ -51,7 +52,7 @@ export const App = () => {
   //   []
   // );
   return (
-    <RootStylesProvider theme={theme} globalStyles={stylesGlobal}>
+    <>
       {bool ? 'true' : 'false'}
       <BlackBox
         size={bool ? 'sm' : 'lg'}
@@ -74,6 +75,13 @@ export const App = () => {
         }}>
         Heeyoooo
       </Button>
+    </>
+  );
+};
+export const Root = () => {
+  return (
+    <RootStylesProvider theme={theme} globalStyles={stylesGlobal}>
+      <App />
     </RootStylesProvider>
   );
 };
