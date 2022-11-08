@@ -56,7 +56,7 @@ export const createCssInJsWithCache = ({ rootCache = new WeakMap() } = {}) => {
     };
     if (byTheme) {
       variantCache = byTheme.get(theme);
-      if (variantCache[stringifiedVariantsKey]) {
+      if (variantCache && variantCache[stringifiedVariantsKey]) {
         results = variantCache[stringifiedVariantsKey];
       } else construct();
     } else construct();

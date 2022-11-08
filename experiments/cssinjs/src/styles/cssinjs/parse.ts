@@ -13,21 +13,22 @@ const store: CssInJsStore = {
 let markersInitialized = false;
 const GLOBAL = 'g';
 const GLOBAL_MEDIA = 'gm';
-const UTILITIES = 'u';
-const UTILITIES_MEDIA = 'um';
 const COMPONENTS = 'c';
 const COMPONENTS_MEDIA = 'cm';
+const UTILITIES = 'u';
+const UTILITIES_MEDIA = 'um';
 const OVERRIDES = 'o';
 const OVERRIDES_MEDIA = 'om';
 const EXTRA = 'x';
 const EXTRA_MEDIA = 'xm';
-export const markers: ObjStr = {
+export type NamespaceMarkers = { [key: string]: string };
+export const markers: NamespaceMarkers = {
   GLOBAL,
   GLOBAL_MEDIA,
-  UTILITIES,
-  UTILITIES_MEDIA,
   COMPONENTS,
   COMPONENTS_MEDIA,
+  UTILITIES,
+  UTILITIES_MEDIA,
   OVERRIDES,
   OVERRIDES_MEDIA,
   EXTRA,

@@ -26,12 +26,14 @@ export type Breakpoints = {
 };
 export type Theme = {
   spacing: (units: number) => number;
-  shape?: { [key: string]: any };
+  shape: { [key: string]: any };
   breakpoints: Breakpoints;
-  shadows?: string[];
+  shadows: string[];
   zIndex?: { [key: string]: number };
   components?: any;
   transitions?: any;
+  palette: { [key: string]: any };
+  typography: { [key: string]: any };
 };
 
 export type StyleFunc = (theme: Theme, variants?: Obj) => Obj;

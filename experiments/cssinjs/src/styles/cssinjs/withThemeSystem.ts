@@ -1,20 +1,20 @@
 import { isFunc, isObj, deepMerge, isNum, isNullOrUndefined } from '@evatrium/utils';
 
 export const marginPaddingFns = {
-  m: (value) => ({ margin: value }),
-  mt: (value) => ({ marginTop: value }),
-  mr: (value) => ({ marginRight: value }),
-  mb: (value) => ({ marginBottom: value }),
-  ml: (value) => ({ marginLeft: value }),
-  mx: (value) => ({ marginRight: value, marginLeft: value }),
-  my: (value) => ({ marginTop: value, marginBottom: value }),
-  p: (value) => ({ padding: value }),
-  pt: (value) => ({ paddingTop: value }),
-  pr: (value) => ({ paddingRight: value }),
-  pb: (value) => ({ paddingBottom: value }),
-  pl: (value) => ({ paddingLeft: value }),
-  px: (value) => ({ paddingRight: value, paddingLeft: value }),
-  py: (value) => ({ paddingTop: value, paddingBottom: value })
+  m: (value: number | string) => ({ margin: value }),
+  mt: (value: number | string) => ({ marginTop: value }),
+  mr: (value: number | string) => ({ marginRight: value }),
+  mb: (value: number | string) => ({ marginBottom: value }),
+  ml: (value: number | string) => ({ marginLeft: value }),
+  mx: (value: number | string) => ({ marginRight: value, marginLeft: value }),
+  my: (value: number | string) => ({ marginTop: value, marginBottom: value }),
+  p: (value: number | string) => ({ padding: value }),
+  pt: (value: number | string) => ({ paddingTop: value }),
+  pr: (value: number | string) => ({ paddingRight: value }),
+  pb: (value: number | string) => ({ paddingBottom: value }),
+  pl: (value: number | string) => ({ paddingLeft: value }),
+  px: (value: number | string) => ({ paddingRight: value, paddingLeft: value }),
+  py: (value: number | string) => ({ paddingTop: value, paddingBottom: value })
 };
 
 export const handleCustomDeclarationKeyMerge = (decKey, value, out, theme) => {

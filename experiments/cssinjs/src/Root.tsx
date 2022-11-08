@@ -1,11 +1,13 @@
 import { useToggle } from '@evatrium/hooks';
-import { FC, useMemo, ComponentProps } from 'react';
+import { FC, ComponentProps } from 'react';
 import { Theme } from '~/styles/types';
-import { Obj } from '@evatrium/utils';
-import { Box, BoxProps, RootStylesProvider, useStyles } from '~/styles';
+import { isString, Obj } from '@evatrium/utils';
+import { Box, BoxProps, RootStylesProvider, useStyles, useTheme, toggleThemeMode } from '~/styles';
 import { theme } from '~/styles/theme';
 import { stylesGlobal } from '~/styles/stylesGlobal';
 import { Button } from '~/components/Button';
+import { Card } from '~/components/Card';
+import { utilityStyles } from '~/styles';
 
 const squareStyles = (theme: Theme, props: Obj) => {
   const { size = 'sm', color = 'blue' } = props;
@@ -42,6 +44,21 @@ const stableOverrides = {
   width: 100
 };
 
+const useToggleMode = () => {};
+
+const Colors = () => {
+  const { palette } = useTheme();
+
+  return (
+    <div style={{ display: 'flex' }}>
+      {Object.keys(palette).map((color, i) => {
+        if (!isString(palette[color])) return null;
+        return <div key={i} style={{ width: 50, height: 50, background: palette[color] }}></div>;
+      })}
+    </div>
+  );
+};
+
 const App = () => {
   const [bool, toggle] = useToggle(false);
   // const sx2 = useMemo(
@@ -64,6 +81,7 @@ const App = () => {
       {bool && <BlackBox size={'lg'} sx={stableOverrides} />}
 
       <Button
+        cn={'t1 flex centerize'}
         sx={{
           textDecoration: 'underline',
           color: {
@@ -80,8 +98,14 @@ const App = () => {
 };
 export const Root = () => {
   return (
-    <RootStylesProvider theme={theme} globalStyles={stylesGlobal}>
-      <App />
+    <RootStylesProvider theme={theme} globalStyles={stylesGlobal} utilityStyles={utilityStyles}>
+      {/*<App />*/}
+      <Box sx={{ p: 2, width: '100%' }}>
+        <Card sx={{ p: 2 }}>
+          <Colors />
+          <Button onClick={toggleThemeMode}>Toggle theme mode</Button>
+        </Card>
+      </Box>
     </RootStylesProvider>
   );
 };

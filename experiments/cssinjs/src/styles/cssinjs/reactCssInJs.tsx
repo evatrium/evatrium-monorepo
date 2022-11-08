@@ -1,5 +1,5 @@
 import { useDeepEqualMemo } from '@evatrium/hooks';
-import { StyleObjOrFunc, StylesProcessingOptions, Theme } from '~/styles/types';
+import { StyleObject, StyleObjOrFunc, StylesProcessingOptions, Theme } from '~/styles/types';
 import { createCssInJsWithCache } from '~/styles/cssinjs/stylesWithCache';
 import { createContext, ReactNode, useContext, useMemo, useRef } from 'react';
 import { insertGlobalStyles } from '~/styles/cssinjs/insertGlobalStyles';
@@ -48,14 +48,14 @@ export const useStyles = (
   const theme = useTheme();
   const styleItWithCache = useContext(StylesWithCacheContext);
   const counterRef = useRef(0);
-  // theme is a gnarly deep object to compare
+  // theme is a gnarly deep object to compare and styles could be a deep object
   // so we will use a normal memo to compare references
   // instead of checking them deeply in the useDeepEqualMemo
-  // when used for declarations only, pass sxDeps to variants
+  // when using styles for declarations only (i.e. Box props), pass sxDeps to variants
   const themeOrStylesReferenceChanged = useMemo(() => {
     counterRef.current++;
     return counterRef.current;
-  }, [theme]);
+  }, [theme, styles]);
 
   return useDeepEqualMemo(() => {
     if (!styles) return declarations ? '' : {};
@@ -64,13 +64,15 @@ export const useStyles = (
 };
 
 // --------------- GLOBAL -----------------
-type GlobalStylesProps = { globalStyles?: StyleObjOrFunc };
+type GlobalStylesProps = { globalStyles?: StyleObjOrFunc; utilityStyles?: StyleObjOrFunc };
 
-export const GlobalStyles = ({ globalStyles }: GlobalStylesProps) => {
+export const GlobalStyles = ({ globalStyles, utilityStyles }: GlobalStylesProps) => {
   const theme = useTheme();
+
   useMemo(() => {
     globalStyles && insertGlobalStyles(theme, globalStyles);
-  }, [theme, globalStyles]);
+    utilityStyles && insertGlobalStyles(theme, utilityStyles, 'UTILITY'); // TODO: fix types
+  }, [theme, globalStyles, utilityStyles]);
   return null;
 };
 // -------------- ROOT PROVIDER -----------------
@@ -85,12 +87,13 @@ export const RootStylesProvider = ({
   rootCache,
   children,
   globalStyles,
+  utilityStyles,
   prefixerOfChoice
 }: RootStylesProviderProps) => {
   return (
     <ThemeProvider theme={theme}>
       <StylesWithCacheProvider rootCache={rootCache} prefixerOfChoice={prefixerOfChoice}>
-        <GlobalStyles globalStyles={globalStyles} />
+        <GlobalStyles globalStyles={globalStyles} utilityStyles={utilityStyles} />
         {children}
       </StylesWithCacheProvider>
     </ThemeProvider>

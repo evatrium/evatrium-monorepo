@@ -26,7 +26,9 @@ export const base = (theme) => ({
     '-webkit-text-size-adjust': '100%',
     textRendering: 'optimizeLegibility',
     overflow: 'hidden',
-    '-webkit-tap-highlight-color': 'rgba(0, 0, 0, 0)'
+    '-webkit-tap-highlight-color': 'rgba(0, 0, 0, 0)',
+    background: theme.palette.bg0,
+    color: theme.palette.t1
     // ...html,
     // color: theme.palette.t1,
   },

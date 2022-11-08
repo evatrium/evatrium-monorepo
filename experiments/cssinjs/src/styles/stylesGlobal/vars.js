@@ -1,10 +1,10 @@
-export const DARK_THEME_ATTRIBUTE = 'dark-theme';
+export const DARK_THEME_ATTRIBUTE = 'data-dark-theme';
 
-export const vars = () => ({
+export const vars = (theme) => ({
   ':root': {
     '--ON': 'initial',
-    '--OFF': ` `
-    // ...theme.palette.declarations,
+    '--OFF': ` `,
+    ...theme.palette.declarations
   },
 
   [`[${DARK_THEME_ATTRIBUTE}]`]: {

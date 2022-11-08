@@ -55,7 +55,11 @@ const buttonStyles = (theme: Theme, variants: ButtonVariants) => {
   return classes;
 };
 
-type ButtonProps = BoxProps & ComponentPropsWithRef<'button'> & ButtonVariants;
+type ButtonProps = {
+  cn?: string;
+} & BoxProps &
+  ComponentPropsWithRef<'button'> &
+  ButtonVariants;
 
 export const Button: FC<ButtonProps> = ({ variant, children, ...rest }) => {
   const btn = useStyles(buttonStyles, {

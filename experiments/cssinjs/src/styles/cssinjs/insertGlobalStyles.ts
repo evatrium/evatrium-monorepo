@@ -1,7 +1,8 @@
 import { StyleObject, StyleObjOrFunc, Theme } from '~/styles/types';
 import { isFunc, isObj } from '@evatrium/utils';
 import { prefixPx } from '~/styles/cssinjs/prefixPx';
-import { markers, sheets } from '~/styles/cssinjs/parse';
+import { markers, NamespaceMarkers, sheets } from '~/styles/cssinjs/parse';
+import { withThemeSystem } from '~/styles/cssinjs/withThemeSystem';
 
 export const jsToRules = (styleObj: StyleObject) => {
   let rules = [];
@@ -25,7 +26,11 @@ export const jsToRules = (styleObj: StyleObject) => {
   return rules;
 };
 
-export const insertGlobalStyles = (theme: Theme, styleObjOrFunc: StyleObjOrFunc) => {
-  let css = isFunc(styleObjOrFunc) ? styleObjOrFunc(theme) : styleObjOrFunc;
-  jsToRules(css).forEach((rule) => sheets({ namespace: markers.GLOBAL }).insert(rule));
+export const insertGlobalStyles = (
+  theme: Theme,
+  styleObjOrFunc: StyleObjOrFunc,
+  type: 'GLOBAL' | 'UTILITY' = 'GLOBAL' // TODO: fix types
+) => {
+  let styles = withThemeSystem(styleObjOrFunc, theme);
+  jsToRules(styles).forEach((rule) => sheets({ namespace: markers[type] }).insert(rule));
 };
