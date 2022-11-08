@@ -14,10 +14,10 @@ export const utilityStyles = (theme: Theme) => {
 
     '.sdwh': {
       boxShadow: shadows[1],
-      transition: transitions.standard('box-shadow'),
-      ['& :hover']: {
-        boxShadow: shadows[2]
-      }
+      transition: transitions.standard('box-shadow')
+    },
+    ['.sdwh:hover']: {
+      boxShadow: shadows[2]
     },
 
     //---------------------BORDER RADIUS------------------

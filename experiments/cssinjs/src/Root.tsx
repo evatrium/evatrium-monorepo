@@ -7,7 +7,6 @@ import { theme } from '~/styles/theme';
 import { stylesGlobal } from '~/styles/stylesGlobal';
 import { Button } from '~/components/Button';
 import { Card } from '~/components/Card';
-import { utilityStyles } from '~/styles';
 
 const squareStyles = (theme: Theme, props: Obj) => {
   const { size = 'sm', color = 'blue' } = props;
@@ -98,7 +97,9 @@ const App = () => {
 };
 export const Root = () => {
   return (
-    <RootStylesProvider theme={theme} globalStyles={stylesGlobal} utilityStyles={utilityStyles}>
+    // import { utilityStyles } from '~/styles';
+    //utilityStyles={utilityStyles} // TODO: fix utility styles
+    <RootStylesProvider theme={theme} globalStyles={stylesGlobal}>
       {/*<App />*/}
       <Box sx={{ p: 2, width: '100%' }}>
         <Card sx={{ p: 2 }}>
