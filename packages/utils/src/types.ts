@@ -1,5 +1,5 @@
 // export type ObjOrArrType = Record<string | number, any> | Array<any>;
-
+export type ObjStrKey = { [key: string]: any };
 export type Obj = Record<keyof any, unknown>;
 export type ObjArr = Obj[];
 
@@ -26,3 +26,21 @@ export type JsonLikeType =
 export type EmitsEvents = Window | Document | HTMLElement | EventTarget;
 
 export {};
+
+type Partial2Level<T> = {
+  [K in keyof T]?: T[K] extends Record<any, any>
+    ? {
+        [J in keyof T[K]]?: T[K][J];
+      }
+    : T[K];
+};
+
+type Partial3Level<T> = {
+  [K in keyof T]?: {
+    [J in keyof T[K]]?: T[K][J] extends Record<any, any>
+      ? {
+          [P in keyof T[K][J]]?: T[K][J][P];
+        }
+      : T[K][J];
+  };
+};

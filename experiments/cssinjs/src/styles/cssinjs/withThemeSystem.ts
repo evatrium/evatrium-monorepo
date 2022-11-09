@@ -1,23 +1,32 @@
-import { isFunc, isObj, deepMerge, isNum, isNullOrUndefined } from '@evatrium/utils';
+import { isFunc, isObj, deepMerge, isNum, isNullOrUndefined, isArr } from '@evatrium/utils';
+import { NestedStyleObject, StyleObjOrFunc, Theme } from '~/styles';
 
-export const marginPaddingFns = {
-  m: (value: number | string) => ({ margin: value }),
-  mt: (value: number | string) => ({ marginTop: value }),
-  mr: (value: number | string) => ({ marginRight: value }),
-  mb: (value: number | string) => ({ marginBottom: value }),
-  ml: (value: number | string) => ({ marginLeft: value }),
-  mx: (value: number | string) => ({ marginRight: value, marginLeft: value }),
-  my: (value: number | string) => ({ marginTop: value, marginBottom: value }),
-  p: (value: number | string) => ({ padding: value }),
-  pt: (value: number | string) => ({ paddingTop: value }),
-  pr: (value: number | string) => ({ paddingRight: value }),
-  pb: (value: number | string) => ({ paddingBottom: value }),
-  pl: (value: number | string) => ({ paddingLeft: value }),
-  px: (value: number | string) => ({ paddingRight: value, paddingLeft: value }),
-  py: (value: number | string) => ({ paddingTop: value, paddingBottom: value })
+type MarginPaddingFns = {
+  [mq: string]: (value: number | string) => { [margPad: string]: number | string };
+};
+export const marginPaddingFns: MarginPaddingFns = {
+  m: (value) => ({ margin: value }),
+  mt: (value) => ({ marginTop: value }),
+  mr: (value) => ({ marginRight: value }),
+  mb: (value) => ({ marginBottom: value }),
+  ml: (value) => ({ marginLeft: value }),
+  mx: (value) => ({ marginRight: value, marginLeft: value }),
+  my: (value) => ({ marginTop: value, marginBottom: value }),
+  p: (value) => ({ padding: value }),
+  pt: (value) => ({ paddingTop: value }),
+  pr: (value) => ({ paddingRight: value }),
+  pb: (value) => ({ paddingBottom: value }),
+  pl: (value) => ({ paddingLeft: value }),
+  px: (value) => ({ paddingRight: value, paddingLeft: value }),
+  py: (value) => ({ paddingTop: value, paddingBottom: value })
 };
 
-export const handleCustomDeclarationKeyMerge = (decKey, value, out, theme) => {
+export const handleCustomDeclarationKeyMerge = (
+  decKey: string,
+  value: any,
+  out: { [key: string]: any },
+  theme: Theme
+) => {
   if (value === undefined) return out;
   if (decKey in marginPaddingFns && !isNullOrUndefined(value)) {
     Object.assign(out, marginPaddingFns[decKey](isNum(value) ? value * theme.spacing(1) : value));
@@ -25,10 +34,13 @@ export const handleCustomDeclarationKeyMerge = (decKey, value, out, theme) => {
   return out;
 };
 
-export const withThemeSystem = (declarations, theme) => {
+export const withThemeSystem = (
+  declarations: StyleObjOrFunc | StyleObjOrFunc[],
+  theme: Theme
+): NestedStyleObject => {
   if (isFunc(declarations)) return withThemeSystem(declarations(theme), theme);
   if (isObj(declarations)) {
-    let out = {};
+    let out: { [key: string]: any } = {};
     for (let decKey in declarations) {
       let value = declarations[decKey];
       if (isFunc(value)) {
@@ -46,12 +58,15 @@ export const withThemeSystem = (declarations, theme) => {
             const media = isDown ? down(k) : up(k);
             out[media] = handleCustomDeclarationKeyMerge(
               decKey,
-              withThemeSystem(value[k], theme),
+              withThemeSystem(value[k] as StyleObjOrFunc, theme),
               out[media] || {},
               theme
             );
           } else {
-            (out[decKey] || (out[decKey] = {}))[k] = withThemeSystem(value[k], theme);
+            (out[decKey] || (out[decKey] = {}))[k] = withThemeSystem(
+              value[k] as StyleObjOrFunc,
+              theme
+            );
           }
         }
       } else {
@@ -59,8 +74,12 @@ export const withThemeSystem = (declarations, theme) => {
       }
     }
     return out;
-  } else if (Array.isArray(declarations)) {
+  } else if (isArr(declarations)) {
     declarations = declarations.filter(Boolean);
-    return declarations.reduce((acc, curr) => deepMerge(acc, withThemeSystem(curr, theme)), {});
+    return declarations.reduce(
+      (acc: { [key: string]: any }, curr: StyleObjOrFunc) =>
+        deepMerge(acc, withThemeSystem(curr, theme)),
+      {} as { [key: string]: any }
+    );
   } else return declarations;
 };

@@ -19,4 +19,5 @@ export * from './useIsomorphicEffect';
 export * from './useIsFirstRender';
 export * from './useId';
 export * from './useHarmonicInterval';
+export * from './useShallowEqualMemo';
 // GENERATED EXPORTS

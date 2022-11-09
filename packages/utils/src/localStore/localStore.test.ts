@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
-import { createLocalStore } from '~/createLocalStore';
+import { localStore } from '~/localStore';
 import { wait } from '~/wait';
 
-describe('createLocalStore', () => {
+describe('localStore', () => {
   it('should stringify and parse values from local storage', async () => {
-    const ls = createLocalStore({ debounceTime: 10 });
+    const ls = localStore;
 
     const item = { foo: 'bar' };
 
@@ -19,8 +19,9 @@ describe('createLocalStore', () => {
     expect(ls.getItem('test')).toBe(null);
 
     ls.setItemDebounced('foo', item);
+    ls.setItemDebounced('foo', item);
 
-    await wait(20);
+    await wait(200);
 
     expect(ls.getItem('foo')).toMatchObject(item);
 
@@ -35,7 +36,7 @@ describe('createLocalStore', () => {
     };
     const funcSpy = vi.spyOn(spyOnMe, 'func');
 
-    const ls = createLocalStore({ debounceTime: 10 });
+    const ls = localStore;
 
     ls.subscribeToKey('test', spyOnMe.func);
 
@@ -49,5 +50,17 @@ describe('createLocalStore', () => {
     await wait(10);
 
     expect(funcSpy).toBeCalledTimes(1);
+  });
+
+  it('create method should create new instance', () => {
+    const ls1 = localStore.create();
+    // const ls2 = localStore;
+
+    expect(ls1).not.equal(localStore);
+    expect(ls1 === localStore).toBeFalsy();
+
+    ls1._debounceTime = 300;
+
+    expect(localStore._debounceTime).toBe(200);
   });
 });

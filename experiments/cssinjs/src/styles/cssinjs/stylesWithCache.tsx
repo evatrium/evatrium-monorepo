@@ -11,10 +11,14 @@ const processStyles = ({
   declarations
 }: StylesProcessingOptions = {}): any => {
   if (declarations) {
+    namespace = namespace || markers.OVERRIDES;
     const themedOut = withThemeSystem(styles, theme);
-    const sig = signature.fast(themedOut); // TODO: see where there is a performance improvement
-    if (decsCache[sig]) return decsCache[sig];
-    decsCache[sig] = parse(themedOut, namespace || markers.OVERRIDES);
+    const sig = signature.fast([namespace, themedOut]); // TODO: find out the performance improvement
+    if (decsCache[sig]) {
+      // console.log('cache hit', namespace);
+      return decsCache[sig];
+    }
+    decsCache[sig] = parse(themedOut, namespace);
     return decsCache[sig];
   }
   let cssClasses: ClassesObj = {};
@@ -38,11 +42,11 @@ export const createCssInJsWithCache = ({ rootCache = new WeakMap() } = {}) => {
     | string => {
     if (!styles) return declarations ? '' : {};
     let byTheme = rootCache.get(styles!);
-    const stringifiedVariantsKey = signature.fast(variants);
+    const stringifiedVariantsKey = signature.fast([namespace, variants]);
     let results;
     let variantCache: { [key: string]: any };
     const construct = () => {
-      console.log('constructing');
+      // console.log('constructing');
       const styleOut = isFunc(styles) ? styles(theme!, variants) : styles;
       results = styleOut
         ? processStyles({ theme, styles: styleOut, namespace, declarations })

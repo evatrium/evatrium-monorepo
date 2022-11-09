@@ -1,110 +1,106 @@
-import { tinycolor } from '~/styles/util/tinyColor';
-import { capitalize, isArr, isObj, isString } from '@evatrium/utils';
-
-const convert = (palette, declarations, parentKey = '') => {
-  return Object.keys(palette).reduce((acc, curr) => {
-    const value = palette[curr];
-    const isAr = isArr(value);
-    if (isAr || isString(value)) {
-      const varName = `--${parentKey}${parentKey ? capitalize(curr) : curr}`;
-      declarations[varName] = !isAr ? value : `var(--light, ${value[0]}) var(--dark, ${value[1]})`;
-      acc[curr] = `var(${varName})`;
-    } else if (isObj(value)) {
-      acc[curr] = convert(value, declarations, curr);
-    }
-    return acc;
-  }, {});
-};
-
-const getRgbValues = ({ r, g, b }) => `${r},${g},${b}`;
-const createCascadingPaletteFromPrimary = (color) => {
-  const tc_primary = tinycolor(color);
-  let { h, s, l, a } = tc_primary.toHsl();
-
-  const steps = 20;
-  const amountEachStep = 100 / (steps - 1);
-  const greys = [...Array(steps)].map((_, i) => {
-    return tinycolor({
-      h,
-      s: (i * (amountEachStep - 3)) / 100,
-      l: (i * amountEachStep) / 100,
-      a
-    }).toHexString();
-  });
-  const grey = greys.reverse().reduce((acc, curr, i) => {
-    const key = i * 50;
-    acc[key] = curr;
-    return acc;
-  }, {});
-
-  const lightShadowBase = tinycolor(grey[300]).toRgb();
-  const darkShadowBase = tinycolor(grey[950]).toRgb();
-
-  const alpha = (color: string, alpha = 1, desat = 0) =>
-    tinycolor(color).desaturate(desat).setAlpha(alpha).toRgbString();
-
-  const action = grey[500];
-  const primary = [tinycolor(color).toHexString(), tinycolor(color).desaturate().toHexString()];
-
-  const config = {
-    grey,
-    black: grey[950],
-    white: [grey[0], grey[100]],
-    primary,
-    secondary: ['#74C7D1', '#74C7D1'],
-    info: ['#1890FF', '#60bffe'],
-    success: ['#54D62C', '#56e174'],
-    warning: ['#FFC107', '#ffc424'],
-    advisory: ['#ff7707', '#fe6943'],
-    error: ['#B72136', '#d61240'],
-    border: [grey[300], grey[700]],
-    t1: [grey[800], grey[250]],
-    t2: [grey[700], grey[400]],
-    t3: [grey[500], grey[600]],
-    contrast1: [grey[950], grey[100]],
-    contrast2: [grey[100], grey[950]],
-    bg0: [grey[100], grey[900]],
-    bg1: [grey[50], grey[850]],
-    bg2: [grey[150], grey[800]],
-    bg3: [grey[200], grey[750]],
-    shadowBase: [getRgbValues(lightShadowBase), getRgbValues(darkShadowBase)],
-    action: [alpha(action, 0.08), alpha(action, 0.01)],
-    actionHover: [alpha(action, 0.13), alpha(action, 0.25)],
-    actionActive: [alpha(action, 0.11), alpha(action, 0.15)],
-    actionFocus: [alpha(action, 0.1), alpha(action, 0.18)],
-    actionDisabled: [alpha(action, 0.9), alpha(action, 0.9)],
-    actionPrimary: [alpha(primary[0], 1), alpha(primary[1], 1)],
-    actionPrimaryHover: [
-      alpha(tinycolor(primary[0]).lighten(10), 1),
-      alpha(tinycolor(primary[1]).lighten(20), 1)
-    ],
-    actionPrimaryActive: [
-      alpha(tinycolor(primary[0]).lighten(12), 1),
-      alpha(tinycolor(primary[1]).lighten(22), 1)
-    ],
-    actionPrimaryFocus: [
-      alpha(tinycolor(primary[0]).lighten(15), 1),
-      alpha(tinycolor(primary[1]).lighten(25), 1)
-    ],
-    actionPrimaryDisabled: [
-      alpha(tinycolor(primary[0]).desaturate(15), 1),
-      alpha(tinycolor(primary[1]).desaturate(25), 1)
-    ]
-  };
-
-  const declarations = {};
-  const converted = convert(config, declarations);
-  console.log(converted, declarations);
-
-  return {
-    ...converted,
-    declarations
-  };
-};
-const p = createCascadingPaletteFromPrimary({ h: 238, s: 0.8, l: 0.6 });
-// console.log(_tester);
 export const palette = {
-  _tester: [],
-  ...p
+  grey: {
+    '0': 'var(--grey0)',
+    '50': 'var(--grey50)',
+    '100': 'var(--grey100)',
+    '150': 'var(--grey150)',
+    '200': 'var(--grey200)',
+    '250': 'var(--grey250)',
+    '300': 'var(--grey300)',
+    '350': 'var(--grey350)',
+    '400': 'var(--grey400)',
+    '450': 'var(--grey450)',
+    '500': 'var(--grey500)',
+    '550': 'var(--grey550)',
+    '600': 'var(--grey600)',
+    '650': 'var(--grey650)',
+    '700': 'var(--grey700)',
+    '750': 'var(--grey750)',
+    '800': 'var(--grey800)',
+    '850': 'var(--grey850)',
+    '900': 'var(--grey900)',
+    '950': 'var(--grey950)'
+  },
+  black: 'var(--black)',
+  white: 'var(--white)',
+  primary: 'var(--primary)',
+  secondary: 'var(--secondary)',
+  info: 'var(--info)',
+  success: 'var(--success)',
+  warning: 'var(--warning)',
+  advisory: 'var(--advisory)',
+  error: 'var(--error)',
+  border: 'var(--border)',
+  t1: 'var(--t1)',
+  t2: 'var(--t2)',
+  t3: 'var(--t3)',
+  contrast1: 'var(--contrast1)',
+  contrast2: 'var(--contrast2)',
+  bg0: 'var(--bg0)',
+  bg1: 'var(--bg1)',
+  bg2: 'var(--bg2)',
+  bg3: 'var(--bg3)',
+  shadowBase: 'var(--shadowBase)',
+  action: 'var(--action)',
+  actionHover: 'var(--actionHover)',
+  actionActive: 'var(--actionActive)',
+  actionFocus: 'var(--actionFocus)',
+  actionDisabled: 'var(--actionDisabled)',
+  actionPrimary: 'var(--actionPrimary)',
+  actionPrimaryHover: 'var(--actionPrimaryHover)',
+  actionPrimaryActive: 'var(--actionPrimaryActive)',
+  actionPrimaryFocus: 'var(--actionPrimaryFocus)',
+  actionPrimaryDisabled: 'var(--actionPrimaryDisabled)',
+  declarations: {
+    '--grey0': '#ffffff',
+    '--grey50': '#ececf7',
+    '--grey100': '#dadbee',
+    '--grey150': '#c8c9e5',
+    '--grey200': '#b7b8dc',
+    '--grey250': '#a7a8d1',
+    '--grey300': '#9798c6',
+    '--grey350': '#8889bb',
+    '--grey400': '#797bae',
+    '--grey450': '#6b6da2',
+    '--grey500': '#606291',
+    '--grey550': '#58597f',
+    '--grey600': '#4f506d',
+    '--grey650': '#46465b',
+    '--grey700': '#3c3c4b',
+    '--grey750': '#31313b',
+    '--grey800': '#26262b',
+    '--grey850': '#1a1a1c',
+    '--grey900': '#0d0d0e',
+    '--grey950': '#000000',
+    '--black': '#000000',
+    '--white': 'var(--light, #ffffff) var(--dark, #dadbee)',
+    '--primary': 'var(--light, #474deb) var(--dark, #5256e0)',
+    '--secondary': 'var(--light, #74C7D1) var(--dark, #74C7D1)',
+    '--info': 'var(--light, #1890FF) var(--dark, #60bffe)',
+    '--success': 'var(--light, #54D62C) var(--dark, #56e174)',
+    '--warning': 'var(--light, #FFC107) var(--dark, #ffc424)',
+    '--advisory': 'var(--light, #ff7707) var(--dark, #fe6943)',
+    '--error': 'var(--light, #B72136) var(--dark, #d61240)',
+    '--border': 'var(--light, #9798c6) var(--dark, #3c3c4b)',
+    '--t1': 'var(--light, #26262b) var(--dark, #a7a8d1)',
+    '--t2': 'var(--light, #3c3c4b) var(--dark, #797bae)',
+    '--t3': 'var(--light, #606291) var(--dark, #4f506d)',
+    '--contrast1': 'var(--light, #000000) var(--dark, #dadbee)',
+    '--contrast2': 'var(--light, #dadbee) var(--dark, #000000)',
+    '--bg0': 'var(--light, #dadbee) var(--dark, #0d0d0e)',
+    '--bg1': 'var(--light, #ececf7) var(--dark, #1a1a1c)',
+    '--bg2': 'var(--light, #c8c9e5) var(--dark, #26262b)',
+    '--bg3': 'var(--light, #b7b8dc) var(--dark, #31313b)',
+    '--shadowBase': 'var(--light, 151,152,198) var(--dark, 0,0,0)',
+    '--action': 'var(--light, rgba(96, 98, 145, 0.08)) var(--dark, rgba(96, 98, 145, 0.01))',
+    '--actionHover': 'var(--light, rgba(96, 98, 145, 0.13)) var(--dark, rgba(96, 98, 145, 0.25))',
+    '--actionActive': 'var(--light, rgba(96, 98, 145, 0.11)) var(--dark, rgba(96, 98, 145, 0.15))',
+    '--actionFocus': 'var(--light, rgba(96, 98, 145, 0.1)) var(--dark, rgba(96, 98, 145, 0.18))',
+    '--actionDisabled': 'var(--light, rgba(96, 98, 145, 0.9)) var(--dark, rgba(96, 98, 145, 0.9))',
+    '--actionPrimary': 'var(--light, rgb(71, 77, 235)) var(--dark, rgb(82, 86, 224))',
+    '--actionPrimaryHover': 'var(--light, rgb(117, 122, 240)) var(--dark, rgb(169, 171, 239))',
+    '--actionPrimaryActive': 'var(--light, rgb(126, 130, 241)) var(--dark, rgb(177, 179, 241))',
+    '--actionPrimaryFocus': 'var(--light, rgb(140, 144, 242)) var(--dark, rgb(190, 192, 243))',
+    '--actionPrimaryDisabled': 'var(--light, rgb(86, 91, 220)) var(--dark, rgb(108, 110, 198))'
+  }
 };
-console.log(palette);

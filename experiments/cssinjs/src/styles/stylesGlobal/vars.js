@@ -1,4 +1,4 @@
-export const DARK_THEME_ATTRIBUTE = 'data-dark-theme';
+import { DARK_THEME_ATTRIBUTE } from '~/styles/theme/mode';
 
 export const vars = (theme) => ({
   ':root': {

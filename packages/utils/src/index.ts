@@ -1,7 +1,6 @@
 export * from './casing';
 export * from './cn';
 export * from './combineArraysAndDeduplicate';
-export * from './createLocalStore';
 export * from './createSubscription';
 export * from './debounce';
 export * from './deepCopy';
@@ -24,6 +23,7 @@ export * from './isEqual';
 export * from './isType';
 export * from './isWeb';
 export * from './jsonParse';
+export * from './localStore';
 export * from './memoize';
 export * from './miscelany';
 export * from './pluck';
@@ -40,4 +40,5 @@ export * from './wait';
 export * from './types';
 export * from './harmonicInterval';
 export * from './weakMemoize';
+
 // GENERATED EXPORTS

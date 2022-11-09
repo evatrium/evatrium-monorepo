@@ -11,11 +11,12 @@ import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import { resolve as pathResolve } from 'node:path';
 import { deepMerge, isObj } from '@evatrium/utils';
-// import react from '@preact/preset-vite';
+import preact from '@preact/preset-vite';
 import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 // @ts-ignore
-export default function viteBoilerplateSPA({ pwa } = {}) {
+export default function viteBoilerplateSPA({ mode }) {
+  const pwa = false;
   const path = (pathname: string) => pathResolve(process.cwd(), pathname);
   const src = path('src');
   const publicDir = path('public');
@@ -37,7 +38,9 @@ export default function viteBoilerplateSPA({ pwa } = {}) {
   }
 
   return defineConfig({
-    plugins: [react(), pwa && VitePWA(pwaConfig)].filter(Boolean),
+    plugins: [mode === 'development' ? react() : preact(), pwa && VitePWA(pwaConfig)].filter(
+      Boolean
+    ),
     resolve: {
       alias: {
         '~': src

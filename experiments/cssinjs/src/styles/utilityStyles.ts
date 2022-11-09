@@ -3,147 +3,162 @@ import { Theme } from '~/styles/types';
 export const utilityStyles = (theme: Theme) => {
   const { shadows, shape, palette, transitions, breakpoints, spacing, typography } = theme;
   return {
+    //---------------------TYPOGRAPHY------------------
+    bold: {
+      fontWeight: 'bold'
+    },
+    noWrap: {
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap'
+    },
+    tuc: {
+      textTransform: 'uppercase'
+    },
+    tac: {
+      textAlign: 'center'
+    },
+
     //---------------------SHADOWS------------------
 
-    '.sdw1': {
+    sh1: {
       boxShadow: shadows[1]
     },
-    '.sdw2': {
+    sh2: {
       boxShadow: shadows[2]
     },
 
-    '.sdwh': {
+    shh: {
       boxShadow: shadows[1],
-      transition: transitions.standard('box-shadow')
-    },
-    ['.sdwh:hover']: {
-      boxShadow: shadows[2]
+      transition: transitions.standard('box-shadow'),
+      ['&:hover']: {
+        boxShadow: shadows[2]
+      }
     },
 
     //---------------------BORDER RADIUS------------------
 
-    '.br1': {
+    br1: {
       borderRadius: shape.br1
     },
-    '.br2': {
+    br2: {
       borderRadius: shape.br2
     },
-    '.br3': {
+    br3: {
       borderRadius: shape.br3
     },
 
     //---------------------DISPLAY------------------
 
-    '.block': {
+    blk: {
       display: 'block'
     },
-    '.blockin': {
-      display: 'inline-block'
-    },
-    '.inl': {
+    inl: {
       display: 'inline'
+    },
+    inlblk: {
+      display: 'inline-block'
     },
     //---------------------FLEX------------------
 
-    '.flex': {
+    flex: {
       display: 'flex'
     },
-    '.fdc': {
+    fdc: {
       flexDirection: 'column'
     },
-    '.fdr': {
+    fdr: {
       flexDirection: 'row'
     },
-    '.jcc': {
+    jcc: {
       justifyContent: 'center'
     },
-    '.jcsb': {
+    jcsb: {
       justifyContent: 'space-between'
     },
-    '.jcse': {
+    jcse: {
       justifyContent: 'space-evenly'
     },
-    '.jcsa': {
+    jcsa: {
       justifyContent: 'space-around'
     },
-    '.jcfs': {
+    jcfs: {
       justifyContent: 'flex-start'
     },
-    '.jcfe': {
+    jcfe: {
       justifyContent: 'flex-end'
     },
-    '.aic': {
+    aic: {
       alignItems: 'center'
     },
-    '.aifs': {
+    aifs: {
       alignItems: 'flex-start'
     },
-    '.ais': {
+    ais: {
       alignItems: 'stretch'
     },
-    '.aife': {
+    aife: {
       alignItems: 'flex-end'
     },
-    '.asfe': {
+    asfe: {
       alignSelf: 'flex-end'
     },
-    '.asfs': {
+    asfs: {
       alignSelf: 'flex-start'
     },
-    '.ass': {
+    ass: {
       alignSelf: 'stretch'
     },
-    '.asc': {
+    asc: {
       alignSelf: 'center'
     },
-    '.fcent': {
+    fcent: {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center'
     },
-    '.grw1': {
+    fg1: {
       flexGrow: 1
     },
-    '.wrap': {
+    wrap: {
       flexFlow: 'wrap'
     },
-    '.snk0': {
-      'flex-shrink': '0'
+    fs0: {
+      flexShrink: '0'
     },
 
     //---------------------SIZING------------------
 
-    '.w100': {
+    w1: {
       width: '100%'
     },
-    '.h100': {
+    h1: {
       height: '100%'
     },
-    '.all100': {
+    all1: {
       height: '100%',
       width: '100%'
     },
 
     //---------------------OVERFLOW------------------
 
-    '.ofh': {
+    ofh: {
       overflow: 'hidden'
     },
-    '.ofa': {
+    ofa: {
       overflow: 'auto'
     },
 
     //---------------------ANIMATIONS------------------
 
-    '.fadeIn': {
+    fadeIn: {
       willChange: 'opacity',
       animation: `fadeIn 100ms ease-in-out`
     },
-    '.fadeOut': {
+    fadeOut: {
       willChange: 'opacity',
       animation: `fadeOut 100ms ease-in-out`
     },
-    '.shimmer': {
+    shimmer: {
       animation: 'shimmer 1s infinite',
       background: `linear-gradient(to right,${palette.action} 0%, ${palette.actionHover} 50%, ${palette.action} 100%)`,
       backgroundSize: '2000px 100%'
@@ -151,7 +166,7 @@ export const utilityStyles = (theme: Theme) => {
 
     //---------------------ELEMENTS------------------
 
-    '.img': {
+    img: {
       display: 'block',
       height: 'auto',
       maxWidth: '100%'
@@ -159,7 +174,7 @@ export const utilityStyles = (theme: Theme) => {
 
     //---------------------GRID------------------
 
-    '.row': {
+    row: {
       '--gridCols': 'var(--cols, 12)',
       // "--grid-gap": `${spacing(1)}px`,
       // "--mar": "calc(0 - var(--grid-gap) )",
@@ -173,7 +188,7 @@ export const utilityStyles = (theme: Theme) => {
       width: '100%',
       flexWrap: 'wrap'
     },
-    '.col': {
+    col: {
       '--percent': 'calc((var(--num, 12) / var(--gridCols)) * 100%)',
       '--colGap_': 'var(--colGap, var(--gridGap))',
       '--rowGap_': 'var(--rowGap, calc(var(--colGap_) * 2))',

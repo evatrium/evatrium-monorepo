@@ -1,16 +1,17 @@
 import { useDeepEqualMemo } from '@evatrium/hooks';
 import { StyleObject, StyleObjOrFunc, StylesProcessingOptions, Theme } from '~/styles/types';
 import { createCssInJsWithCache } from '~/styles/cssinjs/stylesWithCache';
-import { createContext, ReactNode, useContext, useMemo, useRef } from 'react';
+import { createContext, FC, ReactNode, useContext, useMemo, useRef } from 'react';
 import { insertGlobalStyles } from '~/styles/cssinjs/insertGlobalStyles';
 import { PrefixerOfChoice, setPrefixer } from '~/styles/cssinjs/prefixPx';
+import { markers } from '~/styles/cssinjs/parse';
 
 // ----------- THEME -----------------
 export const ThemeContext = createContext({} as Theme);
 
 type ThemeProviderProps = { theme: Theme; children: ReactNode };
 
-export const ThemeProvider = ({ theme, children }: ThemeProviderProps) => {
+export const ThemeProvider: FC<ThemeProviderProps> = ({ theme, children }) => {
   return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>;
 };
 
@@ -27,11 +28,11 @@ export type StylesWithCacheProviderProps = {
   prefixerOfChoice?: PrefixerOfChoice;
 };
 
-export const StylesWithCacheProvider = ({
+export const StylesWithCacheProvider: FC<StylesWithCacheProviderProps> = ({
   rootCache,
   children,
   prefixerOfChoice
-}: StylesWithCacheProviderProps) => {
+}) => {
   const styles = useMemo(() => {
     prefixerOfChoice && setPrefixer(prefixerOfChoice);
     return createCssInJsWithCache({ rootCache });
@@ -64,37 +65,59 @@ export const useStyles = (
 };
 
 // --------------- GLOBAL -----------------
-type GlobalStylesProps = { globalStyles?: StyleObjOrFunc; utilityStyles?: StyleObjOrFunc };
+type GlobalStylesProps = { globalStyles?: StyleObjOrFunc };
 
-export const GlobalStyles = ({ globalStyles, utilityStyles }: GlobalStylesProps) => {
+export const GlobalStyles: FC<GlobalStylesProps> = ({ globalStyles }) => {
   const theme = useTheme();
 
   useMemo(() => {
     globalStyles && insertGlobalStyles(theme, globalStyles);
-    utilityStyles && insertGlobalStyles(theme, utilityStyles, 'UTILITY'); // TODO: fix types
-  }, [theme, globalStyles, utilityStyles]);
+  }, [theme, globalStyles]);
   return null;
 };
+
+// --------------- UTILITY -----------------
+type UtilityClassesProviderProps = { utilityClassesStyles?: StyleObjOrFunc; children: ReactNode };
+
+export const UtilityClassesContext = createContext({});
+
+export const useUtilityClasses = () => useContext(UtilityClassesContext);
+
+export const UtilityClassesProvider: FC<UtilityClassesProviderProps> = ({
+  utilityClassesStyles,
+  children
+}) => {
+  const utilityClasses = useStyles(utilityClassesStyles, { namespace: markers.UTILITIES });
+  return (
+    <UtilityClassesContext.Provider value={utilityClasses}>
+      {children}
+    </UtilityClassesContext.Provider>
+  );
+};
+
 // -------------- ROOT PROVIDER -----------------
 
 export type RootStylesProviderProps = {
   theme: Theme;
 } & StylesWithCacheProviderProps &
-  GlobalStylesProps;
+  GlobalStylesProps &
+  UtilityClassesProviderProps;
 
-export const RootStylesProvider = ({
+export const RootStylesProvider: FC<RootStylesProviderProps> = ({
   theme,
   rootCache,
   children,
   globalStyles,
-  utilityStyles,
+  utilityClassesStyles,
   prefixerOfChoice
-}: RootStylesProviderProps) => {
+}) => {
   return (
     <ThemeProvider theme={theme}>
       <StylesWithCacheProvider rootCache={rootCache} prefixerOfChoice={prefixerOfChoice}>
-        <GlobalStyles globalStyles={globalStyles} utilityStyles={utilityStyles} />
-        {children}
+        <GlobalStyles globalStyles={globalStyles} />
+        <UtilityClassesProvider utilityClassesStyles={utilityClassesStyles}>
+          {children}
+        </UtilityClassesProvider>
       </StylesWithCacheProvider>
     </ThemeProvider>
   );

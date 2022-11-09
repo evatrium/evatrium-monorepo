@@ -1,3 +1,5 @@
+// @ts-nocheck
+// https://github.com/bgrins/TinyColor
 let trimLeft = /^\s+/,
   trimRight = /\s+$/,
   mathRound = Math.round,

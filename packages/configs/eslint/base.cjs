@@ -28,8 +28,10 @@ module.exports = {
   rules: {
     'arrow-body-style': 'off',
     'prefer-arrow-callback': 'off',
-    'prefer-const':'off',
+    'prefer-const': 'off',
     'object-curly-spacing': ['error', 'always'],
+    'object-curly-newline': 'off',
+    'multiline-ternary': ['warn', 'always-multiline'],
     'no-unused-vars': 'off',
     'no-extra-parens': 'off',
     'no-redeclare': 'off',
@@ -53,7 +55,9 @@ module.exports = {
         endOfLine: 'lf',
         bracketSpacing: true,
         bracketSameLine: true,
-        arrowParens: 'always'
+        arrowParens: 'always',
+        objectCurlyNewline: false, // ?????
+        singleAttributePerLine: false
       }
     ],
     '@typescript-eslint/no-unused-vars': 'off',

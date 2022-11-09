@@ -28,7 +28,8 @@ export const base = (theme) => ({
     overflow: 'hidden',
     '-webkit-tap-highlight-color': 'rgba(0, 0, 0, 0)',
     background: theme.palette.bg0,
-    color: theme.palette.t1
+    color: theme.palette.t1,
+    ...theme.typography.html
     // ...html,
     // color: theme.palette.t1,
   },
@@ -38,5 +39,11 @@ export const base = (theme) => ({
     height: '100%',
     width: '100%'
     // minHeight: '100vh' //test
+  },
+  body: {
+    ...theme.typography.body
+  },
+  button: {
+    ...theme.typography.button
   }
 });
