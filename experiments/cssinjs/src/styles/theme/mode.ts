@@ -9,6 +9,7 @@ const STORAGE_KEY_THEME_MODE = 'theme-mode';
 const dfltMode = 'system';
 export type Mode = 'light' | 'dark' | 'system';
 const modes: { [key: string]: Mode } = { dark: 'dark', light: 'light', system: 'system' };
+const { dark, light, system } = modes;
 const mm = () => window.matchMedia('(prefers-color-scheme: dark)');
 /*** similar logic is executed in index.html*/
 const handleMode = (setTo?: Mode): { setting: string; perceived: string } => {
@@ -17,28 +18,25 @@ const handleMode = (setTo?: Mode): { setting: string; perceived: string } => {
   let setting = setTo || ls.getItem(STORAGE_KEY_THEME_MODE);
   if (!setting || !(setting in modes)) setting = dfltMode;
   ls.setItem(STORAGE_KEY_THEME_MODE, setting);
-  if (setting === modes.system && 'matchMedia' in window) {
-    let mql = mm();
-    perceived = mql.matches ? modes.dark : modes.light;
+  if (setting === system && 'matchMedia' in window) {
+    perceived = mm().matches ? dark : light;
   } else perceived = setting;
   const el = document.querySelector('html')!;
-  perceived === modes.dark
+  perceived === dark
     ? el.setAttribute(DARK_THEME_ATTRIBUTE, '')
     : el.removeAttribute(DARK_THEME_ATTRIBUTE);
   return { setting, perceived };
 };
 
 type ModeSettings = { setting: string; perceived: string };
-export const useThemeMode = (
-  mode: Mode = modes.system
-): [ModeSettings, (nextMode: Mode) => void] => {
+export const useThemeMode = (mode: Mode = system): [ModeSettings, (nextMode: Mode) => void] => {
   const [m, setM] = useState<{ setting: string; perceived: string }>(() => handleMode(mode));
   const onModeChange = useCallback((setTo: Mode) => setM(handleMode(setTo)), []);
   const setting = useSyncedRef(m.setting);
   useEffect(() => {
     if (!isWeb()) return;
     const handler = (e?: MediaQueryListEvent) =>
-      setting.current === modes.system && onModeChange(e?.matches ? modes.dark : modes.light);
+      setting.current === system && onModeChange(e?.matches ? dark : light);
     const media = mm();
     media.addListener(handler); // Intentionally use deprecated listener methods to support iOS & old browsers
     const unsub = ls.subscribeToKey(STORAGE_KEY_THEME_MODE, (data: any) => onModeChange(data));
