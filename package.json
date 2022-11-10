@@ -10,10 +10,10 @@
   "bugs": {
     "url": "https://github.com/evatrium/evatrium-monorepo/issues"
   },
-  "packageManager": "pnpm@7.14.2",
+  "packageManager": "pnpm@7.15.0",
   "engines": {
     "node": ">=18.9.1",
-    "pnpm": ">=7.14.2"
+    "pnpm": ">=7.15.0"
   },
   "scripts": {
     "build": "turbo run build",

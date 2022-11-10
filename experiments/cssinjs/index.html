@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-dark-theme>
+<html lang="en">
 
 <head>
   <meta charset="utf-8"/>
@@ -21,28 +21,27 @@
   <meta name="keywords" content="">
 
   <meta name="theme-color" content="#5252e0">
-<!--  <link rel="manifest" href="/manifest.json"/>-->
+  <!--  <link rel="manifest" href="/manifest.json"/>-->
   <!-- Favicon -->
-<!--  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">-->
-<!--  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">-->
-<!--  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">-->
-<!--  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5252e0">-->
+  <!--  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">-->
+  <!--  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">-->
+  <!--  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">-->
+  <!--  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5252e0">-->
   <meta name="msapplication-TileColor" content="#da532c">
 
   <!-- Open Graph / Facebook -->
-<!--  <meta property="og:type" content="website">-->
-<!--  <meta property="og:url" content="https://uix.dev/">-->
-<!--  <meta property="og:title" content="Weston Blair Ross | React Developer & UI/UX Designer">-->
-<!--  <meta property="og:description" content="React Developer & UI/UX Designer based in San Diego, California">-->
-<!--  <meta property="og:image" content="/logo.svg">-->
+  <!--  <meta property="og:type" content="website">-->
+  <!--  <meta property="og:url" content="https://uix.dev/">-->
+  <!--  <meta property="og:title" content="Weston Blair Ross | React Developer & UI/UX Designer">-->
+  <!--  <meta property="og:description" content="React Developer & UI/UX Designer based in San Diego, California">-->
+  <!--  <meta property="og:image" content="/logo.svg">-->
 
   <!-- Twitter -->
-<!--  <meta property="twitter:card" content="summary_large_image">-->
-<!--  <meta property="twitter:url" content="https://uix.dev">-->
-<!--  <meta property="twitter:title" content="Weston Blair Ross | React Developer & UI/UX Designer">-->
-<!--  <meta property="twitter:description" content="React Developer & UI/UX Designer based in San Diego, California">-->
-<!--  <meta property="twitter:image" content="/logo.svg">-->
-
+  <!--  <meta property="twitter:card" content="summary_large_image">-->
+  <!--  <meta property="twitter:url" content="https://uix.dev">-->
+  <!--  <meta property="twitter:title" content="Weston Blair Ross | React Developer & UI/UX Designer">-->
+  <!--  <meta property="twitter:description" content="React Developer & UI/UX Designer based in San Diego, California">-->
+  <!--  <meta property="twitter:image" content="/logo.svg">-->
 
 
 </head>
@@ -79,6 +78,28 @@
     root.innerHTML =
       '<div style="max-width: 500px;margin: 50px auto;box-shadow: 0px 6px 19px 2px rgba(14,21,35,0.28);text-align: center; font-family: sans-serif">' +
       '<h3 style="text-align: center;padding: 50px; color:grey">This browser is not supported<br>Please use the latest version of Chrome, Firefox, Safari, Edge or Opera</h3></div>';
+  } else {
+    try {
+      var dfltMode = "system";
+      var ls = window.localStorage;
+      var mm = window.matchMedia;
+      var modes = ["dark", "light", "system"];
+      var modeToSet = ls.getItem('theme-mode');
+      if (modes.indexOf(modeToSet) < 0) {
+        modeToSet = dfltMode;
+        ls.setItem('theme-mode', '"' + modeToSet + '"');
+      }
+      if (mm && modeToSet === 'system') {
+        var mql = mm('(prefers-color-scheme: dark)');
+        if (mql.matches) modeToSet = 'dark';
+      }
+      const el = document.querySelector('html')
+      modeToSet === 'dark'
+        ? el.setAttribute('data-dark-theme', '')
+        : el.removeAttribute('data-dark-theme');
+    } catch (e) {
+    }
+
   }
 </script>
 <script type="module" src="/src/index.tsx"></script>

@@ -142,7 +142,7 @@ export const Button: FC<ButtonProps> = ({
       style={{
         ...style
       }}
-      classes={[btn.root]}
+      classes={[btn.root, classes]}
       {...rest}>
       {children}
     </Box>

@@ -30,7 +30,7 @@ const getUtilities = (
     } else if (key in marginPaddingFns) sx[key] = props[key];
     else others[key] = props[key];
   }
-  return [utilities, sx, others];
+  return [utilities.trim(), sx, others];
 };
 const getMQ = (obj: StrKeyObj, out: StrKeyObj = {}) => {
   for (let key in obj) if (!isNullOrUndefined(obj[key])) out[`--${key}`] = obj[key];
@@ -53,6 +53,11 @@ export const useUtilityStyles = (props: StrKeyObj = {}): UseUtilitiesReturnType 
       console.error('x prop is required when using utility props on Box');
     }
   }
+  const deps = [sx, style, gap, rowGap, bg, color, sized, aspectRatio, xs, sm, md, lg, xl, xxl];
+  // eslint-disable-next-line no-sparse-arrays
+  const ignoreDeps = [, , , , , , , , , , , , , x]; // react wants the num of deps to stay the same...
+  // maybe this is pointless?... nah they wouldnt change and therefore the memo function would not run unnecessarily
+  //
   const withUtilities = useShallowEqualMemo(
     () => {
       if (x) {
@@ -77,7 +82,7 @@ export const useUtilityStyles = (props: StrKeyObj = {}): UseUtilitiesReturnType 
       }
       return ['', sx, otherProps];
     },
-    x ? [sx, style, gap, rowGap, bg, color, sized, aspectRatio, xs, sm, md, lg, xl, xxl] : [x]
+    x ? deps : ignoreDeps
   );
   if (x) return withUtilities as UseUtilitiesReturnType;
   if (!isEmpty(style)) otherProps.style = style;
