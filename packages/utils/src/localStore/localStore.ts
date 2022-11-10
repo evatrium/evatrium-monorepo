@@ -51,6 +51,7 @@ type LocalStore = {
  * ls._debounceTime = 300;
  *
  * ls.setItemDebounced("num", (num + 1))
+ *
  */
 export const localStore: LocalStore = {
   create() {

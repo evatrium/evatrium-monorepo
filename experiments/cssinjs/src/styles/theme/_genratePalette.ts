@@ -3,6 +3,14 @@ import { capitalize, isArr, isObj, isString } from '@evatrium/utils';
 import { StrKeyObj } from '~/styles';
 import { Theme } from '~/styles';
 
+/*
+
+
+    TODO: make script to execute and write this to file at build time
+    unless we plan to have adaptive theming
+
+ */
+
 const convert = (palette: Theme['palette'], declarations: StrKeyObj, parentKey = '') => {
   return Object.keys(palette).reduce((acc, curr) => {
     const value = palette[curr];
