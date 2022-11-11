@@ -121,6 +121,8 @@ const config = {
   error: ['#B72136', '#d61240'],
   grey,
   border: grey[700],
+  // text - 1:primary, 2:secondary, 3:tertiary/disabled
+  // tp - text primary
   t1: [grey[800], grey[250]], //[grey[800], ],
   t2: [grey[700], grey[400]], //[grey[600]],
   t3: [grey[500], grey[600]], //[grey[500], grey[600]],

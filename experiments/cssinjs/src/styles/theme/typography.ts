@@ -1,64 +1,61 @@
-import { StrKeyObj, Theme } from '~/styles';
+import { ObjStrKey, Theme } from '~/styles';
+import { ObjStrKey } from '@evatrium/utils';
 
-export const typography = ({ palette }: { palette: StrKeyObj }) => {
-  const htmlFontSize = 16;
+export const typography = ({ palette }: { palette: ObjStrKey }) => {
+  const htmlFontSize = 14;
   const regular = 400;
-  const medium = 600;
+  const medium = 500;
   const bold = 700;
 
-  const pxToRem = (value: number) => `${value / htmlFontSize}rem`;
+  const pxToRem = (value: number, unit = 'rem') => `${value / htmlFontSize}${unit}`;
 
-  let s = 1.4;
+  let ratio = 1.6;
 
-  const fontSize = 13 * s;
-
-  const fontStack = `GT Walsheim, Roboto, Helvetica Neue, -apple-system, Segoe UI, Oxygen, Ubuntu,\
-Cantarell, Fira Sans, Droid Sans, sans-serif, "Apple Color Emoji",\
-"Segoe UI Emoji", "Segoe UI Symbol"`;
+  const fontStack = `GT Walsheim, Roboto, Helvetica Neue, -apple-system, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`;
 
   const weights = {
-    regular: 400,
-    medium: 600,
+    regular,
+    medium,
     bold: 'bold'
   };
-
-  const scale = {
-    txxl: {
-      fontSize: pxToRem(60 * s)
-    },
-    txl: {
-      fontSize: pxToRem(42 * s)
-    },
-    tlg: {
-      fontSize: pxToRem(30 * s)
-    },
-    tmd: {
-      fontSize: pxToRem(20 * s)
-    },
-    tsm: {
-      fontSize: pxToRem(11 * s)
-    },
-    txs: {
-      fontSize: pxToRem(8 * s)
-    }
+  const typo = ({ px, lh = ratio }: { px: number; lh: number }) => {
+    const fontSize = pxToRem(px * ratio);
+    return {
+      fontSize,
+      lineHeight: lh
+    };
   };
+  console.log(typeof (1.123).toFixed(3));
+  const scale: ObjStrKey = ['txxl', 'txl', 'tlg', 'tmd', 't', 'tsm', 'txs'].reduce(
+    (acc, curr, i) => {
+      i = i + 1;
+      const hemmed = ratio / parseFloat(`1.${i + 15}`);
+      acc[curr] = typo({ px: parseFloat(((30 / i) * ratio).toFixed(3)), lh: ratio });
+      return acc;
+    },
+    {} as ObjStrKey
+  );
+
+  console.log(scale);
 
   return {
+    scale,
     html: {
       fontSize: htmlFontSize,
       fontFamily: fontStack,
       fontVariantLigatures: 'common-ligatures',
       fontFeatureSettings: '"liga", "clig"',
       // letterSpacing: '-0.24px'
-      letterSpacing: 1
+      // letterSpacing: 1,
+      fontWeight: weights.medium
     },
     body: {
-      fontSize
+      ...scale.t
     },
     button: {
-      color: 'inherit',
       fontWeight: weights.bold,
-      textTransform: 'uppercase'
+      textTransform: 'uppercase',
+      ...scale.t
     }
   };
 };

@@ -65,6 +65,7 @@
     var script = document.createElement('script');
     return 'noModule' in script;
   }
+
   // -------------- PREVENT OLD AF BROWSERS FROM COMPLETELY BLOWING UP AND DISPLAY A MESSAGE ----------------
   const getANewBrowser = navigator.userAgent.indexOf("MSIE") !== -1
     || !!window.StyleMedia
@@ -84,10 +85,12 @@
       var ls = window.localStorage;
       var mm = window.matchMedia;
       var modes = ["dark", "light", "system"];
-      var modeToSet = ls.getItem('theme-mode');
+      var modeToSet = JSON.parse(ls.getItem('theme-mode'));
+      console.log('mode to set', modeToSet, modes.indexOf(modeToSet));
       if (modes.indexOf(modeToSet) < 0) {
+        console.log('no modes')
         modeToSet = dfltMode;
-        ls.setItem('theme-mode', '"' + modeToSet + '"');
+        ls.setItem('theme-mode', JSON.stringify(modeToSet));
       }
       if (mm && modeToSet === 'system') {
         var mql = mm('(prefers-color-scheme: dark)');

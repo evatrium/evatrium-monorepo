@@ -7,16 +7,19 @@ export const utilityStyles = (theme: Theme) => {
     bold: {
       fontWeight: 'bold'
     },
-    noWrap: {
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap'
-    },
     tuc: {
       textTransform: 'uppercase'
     },
     tac: {
       textAlign: 'center'
     },
+    noWrap: {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap'
+    },
+
+    ...typography.scale,
 
     //---------------------SHADOWS------------------
 

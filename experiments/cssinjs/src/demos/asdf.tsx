@@ -1,4 +1,4 @@
-import { Box, BoxProps, Theme, useStyles } from '~/styles';
+import { X, BoxProps, Theme, useStyles } from '~/styles';
 import { Obj } from '@evatrium/utils';
 import { ComponentProps, FC } from 'react';
 import { useToggle } from '@evatrium/hooks';
@@ -26,9 +26,9 @@ export const BlackBox: FC<BlackBoxProps> = ({ size, color, ...rest }) => {
     variants: { size, color }
   });
   return (
-    <Box className={classnames.root} {...rest}>
+    <X className={classnames.root} {...rest}>
       im a box
-    </Box>
+    </X>
   );
 };
 
@@ -40,8 +40,8 @@ const stableOverrides = {
 const App = () => {
   const [bool, toggle] = useToggle(false);
   return (
-    <Box x p={2}>
-      <Box
+    <X x p={2}>
+      <X
         sx={{
           color: {
             xs: 'white',
@@ -51,11 +51,11 @@ const App = () => {
           }
         }}>
         {bool ? 'true' : 'false'}
-      </Box>
+      </X>
 
       <BlackBox size={bool ? 'sm' : 'lg'} onClick={toggle} />
 
       {bool && <BlackBox size={'lg'} sx={stableOverrides} />}
-    </Box>
+    </X>
   );
 };

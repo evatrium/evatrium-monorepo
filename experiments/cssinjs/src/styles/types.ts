@@ -1,9 +1,9 @@
 import { ObjOrArrType } from '@evatrium/utils';
 import { markers } from '~/styles/cssinjs/parse';
+import { ObjStrKey } from '@evatrium/utils';
 
-export type StrKeyObj = {
-  [key: string]: any;
-};
+export type { ObjStrKey };
+
 export type BreakpointValues = {
   [key: string]: number;
   xs: number;
@@ -36,9 +36,9 @@ export type Theme = {
   typography: { [key: string]: any };
   getColor: (color: string) => string;
 };
-
-export type StyleFunc = (theme: Theme, variants?: StrKeyObj) => StrKeyObj;
-export type StyleObjOrFunc = StrKeyObj | StyleFunc;
+export type StyleObj = ObjStrKey;
+export type StyleFunc = (theme: Theme, variants?: StyleObj) => StyleObj;
+export type StyleObjOrFunc = StyleObj | StyleFunc;
 
 export type JoinedClassNamesString = string;
 
@@ -72,5 +72,5 @@ export type StylesProcessingOptions = {
   declarations?: boolean;
   styles?: StyleObjOrFunc;
   namespace?: typeof markers[keyof typeof markers];
-  vars?: [string, StrKeyObj];
+  vars?: [string, ObjStrKey];
 };

@@ -2,8 +2,6 @@ import { isWeb, localStore as ls } from '@evatrium/utils';
 import { useCallback, useEffect, useState } from 'react';
 import { useSyncedRef } from '@evatrium/hooks';
 
-// a bit less code than: https://github.com/mui/material-ui/blob/master/packages/mui-system/src/cssVars/useCurrentColorScheme.ts
-
 export const DARK_THEME_ATTRIBUTE = 'data-dark-theme';
 const STORAGE_KEY_THEME_MODE = 'theme-mode';
 const dfltMode = 'system';
@@ -30,7 +28,7 @@ const handleMode = (setTo?: Mode): { setting: string; perceived: string } => {
 
 type ModeSettings = { setting: string; perceived: string };
 export const useThemeMode = (mode: Mode = system): [ModeSettings, (nextMode: Mode) => void] => {
-  const [m, setM] = useState<{ setting: string; perceived: string }>(() => handleMode(mode));
+  const [m, setM] = useState<{ setting: string; perceived: string }>(() => handleMode());
   const onModeChange = useCallback((setTo: Mode) => setM(handleMode(setTo)), []);
   const setting = useSyncedRef(m.setting);
   useEffect(() => {

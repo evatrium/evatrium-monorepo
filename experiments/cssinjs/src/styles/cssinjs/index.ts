@@ -1,3 +1,3 @@
 export * from './prefixPx';
 export * from './reactCssInJs';
-export * from './Box';
+export * from './X';

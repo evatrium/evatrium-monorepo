@@ -1,20 +1,21 @@
 import { isString } from '@evatrium/utils';
-import { Box, RootStylesProvider, useTheme, utilityStyles } from '~/styles';
+import { X, RootStylesProvider, useTheme, utilityStyles } from '~/styles';
 import { theme } from '~/styles/theme';
 import { stylesGlobal } from '~/styles/stylesGlobal';
-import { Button } from '~/components/Button';
+import { Button } from '~/components/buttons/Button/Button';
 import { Mode, useThemeMode } from '~/styles/theme/mode';
 import { ComponentProps, FC } from 'react';
+import { loremIpsum } from '~/util';
 
 const Colors: FC<ComponentProps<any>> = () => {
   const { palette } = useTheme();
   return (
-    <Box x flex wrap>
+    <X x flex wrap>
       {Object.keys(palette).map((color, i) => {
         if (!isString(palette[color])) return null;
-        return <Box key={i} x sized={50} bg={color}></Box>;
+        return <X key={i} x sized={50} bg={color}></X>;
       })}
-    </Box>
+    </X>
   );
 };
 
@@ -22,38 +23,135 @@ const ToggleModeDemo: FC<ComponentProps<any>> = (props) => {
   const [mode, setMode] = useThemeMode();
   console.log(mode);
   return (
-    <Box x p={2} w1 {...props}>
-      <Box x p={2} bg={'bg1'} br2 sh1>
+    <X x w1 {...props} mb={2}>
+      <X x p={2} bg={'bg1'} br2 sh1>
         <Colors />
-        <Box x flex aic sx={{ gap: 10 }} mt={2}>
+        <X x flex aic sx={{ gap: 8 }} mt={2}>
           <Button onClick={() => setMode('dark' as Mode)}>Dark Mode</Button>
           <Button onClick={() => setMode('light' as Mode)}>Light Mode</Button>
           <Button onClick={() => setMode('system' as Mode)}>System Mode</Button>
-          <Box sx={(t) => ({ ...t.typography.button })}>Mode is: {JSON.stringify(mode)}</Box>
-        </Box>
-      </Box>
-    </Box>
+          <X x color={'t2'}>
+            Setting: {` `}
+          </X>
+          <X x bold>
+            {mode.setting}
+          </X>
+          <X x color={'t2'}>
+            Perceived:
+          </X>
+          <X x bold>
+            {mode.perceived}
+          </X>
+        </X>
+      </X>
+    </X>
+  );
+};
+const Buttons: FC<ComponentProps<any>> = (props) => {
+  return (
+    <X x w1 {...props} mb={2}>
+      <X x p={2} bg={'bg1'} br2 sh1>
+        <X x w1 flex sx={{ gap: 8 }}>
+          <Button>Btn</Button>
+          <Button outlined>Btn outlined</Button>
+          <Button primary>Primary Btn</Button>
+          <Button primary outlined>
+            Primary Btn Outlined
+          </Button>
+        </X>
+        <X x w1 flex sx={{ gap: 8 }} mt={2}>
+          <Button disabled>Btn Disabled</Button>
+          <Button disabled outlined>
+            Btn outlined Disabled
+          </Button>
+          <Button disabled primary>
+            Primary Btn Disabled
+          </Button>
+          <Button disabled primary outlined>
+            Primary Btn Outlined Disabled
+          </Button>
+        </X>
+        <X x w1 flex sx={{ gap: 8 }} mt={2}>
+          <Button size={'sm'}> Btn sm</Button>
+          <Button size={'sm'} outlined>
+            dflt outlined sm
+          </Button>
+          <Button size={'sm'} primary>
+            Primary Btn sm
+          </Button>
+          <Button size={'sm'} primary outlined>
+            Primary Outlined sm
+          </Button>
+        </X>
+      </X>
+    </X>
+  );
+};
+const Grid: FC<ComponentProps<any>> = () => {
+  return (
+    <X x w1 px={2}>
+      <X x row>
+        {[...Array(12)].map((_, i) => {
+          return (
+            <X
+              gap={0.5}
+              rowGap={1}
+              key={i}
+              x
+              col={{ xs: 12, sm: 6, md: 4 }}
+              xs={12}
+              sm={6}
+              md={4}
+              style={{ height: 100 }}>
+              <X x bg={'bg1'} sh1 all1 br={1} />
+            </X>
+          );
+        })}
+      </X>
+    </X>
   );
 };
 
+const Typography: FC<ComponentProps<any>> = () => {
+  const {
+    typography: { scale }
+  } = useTheme();
+  return (
+    <X x w1 p={2} bg={'bg1'} br2 sh1>
+      <X x txl>
+        Typo: txl
+      </X>
+      <X x tlg>
+        Typo: tlg
+      </X>
+      <X x tmd bold>
+        Typo: tmd
+      </X>
+      <X x my={1} t color={'t1'} sx={{ width: { xs: '100%', sm: '50%' } }}>
+        (Default) {loremIpsum}
+      </X>
+      <X x tsm>
+        Typo: tsm
+      </X>
+      <X x txs>
+        Typo: txs
+      </X>
+    </X>
+  );
+};
 export const Root = () => {
   return (
     <RootStylesProvider
       theme={theme}
       globalStyles={stylesGlobal}
       utilityClassesStyles={utilityStyles}>
-      <ToggleModeDemo mt={2} />
-      <Box x w1 px={2}>
-        <Box x row>
-          {[...Array(12)].map((_, i) => {
-            return (
-              <Box gap={0.5} rowGap={1} key={i} x col xs={12} sm={6} md={4} style={{ height: 100 }}>
-                <Box x bg={'bg1'} sh1 all1 br={1} />
-              </Box>
-            );
-          })}
-        </Box>
-      </Box>
+      <X x all1 ofa>
+        <X x all1 sx={(t) => ({ maxWidth: t.breakpoints.values['lg'], mx: 'auto' })}>
+          <ToggleModeDemo mt={2} />
+          <Buttons />
+          <Typography />
+        </X>
+      </X>
     </RootStylesProvider>
   );
 };

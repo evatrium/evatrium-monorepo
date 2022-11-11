@@ -1,10 +1,11 @@
-import { useDeepEqualMemo } from '@evatrium/hooks';
+import { useDeepEqualMemo, useShallowEqualMemo } from '@evatrium/hooks';
 import { StyleObject, StyleObjOrFunc, StylesProcessingOptions, Theme } from '~/styles/types';
 import { createCssInJsWithCache } from '~/styles/cssinjs/stylesWithCache';
 import { createContext, FC, ReactNode, useContext, useMemo, useRef } from 'react';
 import { insertGlobalStyles } from '~/styles/cssinjs/insertGlobalStyles';
 import { PrefixerOfChoice, setPrefixer } from '~/styles/cssinjs/prefixPx';
 import { markers } from '~/styles/cssinjs/parse';
+import { isFunc, ObjStrKey } from '@evatrium/utils';
 
 // ----------- THEME -----------------
 export const ThemeContext = createContext({} as Theme);
@@ -62,6 +63,26 @@ export const useStyles = (
     if (!styles) return declarations ? '' : {};
     return styleItWithCache({ theme, styles, variants, declarations, namespace });
   }, [themeOrStylesReferenceChanged, variants, declarations]); // when used for declarations only, pass sxDeps to variants
+};
+
+// --------------- VARS -----------------
+
+export const useVars = (name: string, obj: StyleObjOrFunc, deps: any[]) => {
+  const theme = useTheme();
+  const styles = useShallowEqualMemo(() => {
+    if (!obj) return {};
+    obj = isFunc(obj) ? obj(theme) : obj;
+    return Object.keys(obj).reduce((acc, curr) => {
+      acc[`--${name}-${curr}`] = obj[curr];
+      return acc;
+    }, {} as ObjStrKey);
+  }, deps || []);
+  // console.log(styles);
+  return useStyles(styles, {
+    declarations: true,
+    variants: deps
+  });
+  // return styles;
 };
 
 // --------------- GLOBAL -----------------

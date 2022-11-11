@@ -5,7 +5,7 @@ import { palette } from '~/styles/theme/_genratePalette';
 import { typography } from '~/styles/theme/typography';
 import { getIn } from '@evatrium/utils';
 
-export const spacing = 8;
+export const spacingUnit = 8;
 
 const getColor = (theme: Theme, color: string) => {
   const { palette } = theme;
@@ -13,11 +13,12 @@ const getColor = (theme: Theme, color: string) => {
   if (String(color).startsWith('grey')) return palette.grey[color.replace('grey', '')];
   return color;
 };
-
+const spacing = (units: number) => spacingUnit * units;
+spacing.units = 'px';
 export const theme: Theme = {
-  spacing: (units: number) => spacing * units,
+  spacing,
   typography: typography({ palette }),
-  shape: { br1: 4, br2: 12, br3: 20 },
+  shape: { br1: 2, br2: 10, br3: 50 },
   breakpoints,
   palette,
   shadows: [

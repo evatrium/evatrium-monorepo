@@ -1,5 +1,5 @@
-import { ComponentProps, ElementType, FC, forwardRef, ReactNode, useMemo } from 'react';
-import { StrKeyObj, StyleObjOrFunc, Theme } from '~/styles/types';
+import { ComponentProps, ElementType, FC, forwardRef, memo, ReactNode, useMemo } from 'react';
+import { ObjStrKey, StyleObjOrFunc, Theme } from '~/styles/types';
 import {
   cn,
   deepMerge,
@@ -18,11 +18,11 @@ const assign = Object.assign;
 
 const getUtilities = (
   theme: Theme,
-  utilityClasses: StrKeyObj,
-  props: StrKeyObj
-): [string, StrKeyObj, StrKeyObj] => {
-  let sx: StrKeyObj = {},
-    others: StrKeyObj = {},
+  utilityClasses: ObjStrKey,
+  props: ObjStrKey
+): [string, ObjStrKey, ObjStrKey] => {
+  let sx: ObjStrKey = {},
+    others: ObjStrKey = {},
     utilities = '';
   for (let key in props) {
     if (key in utilityClasses) {
@@ -32,30 +32,24 @@ const getUtilities = (
   }
   return [utilities.trim(), sx, others];
 };
-const getMQ = (obj: StrKeyObj, out: StrKeyObj = {}) => {
-  for (let key in obj) if (!isNullOrUndefined(obj[key])) out[`--${key}`] = obj[key];
+const getMQ = (obj: ObjStrKey, out: ObjStrKey = {}) => {
+  for (let key in obj) obj[key] && (out[`--${key}`] = obj[key]);
   return out;
 };
-type UseUtilitiesReturnType = [string, StrKeyObj, StrKeyObj];
+type UseUtilitiesReturnType = [string, ObjStrKey, ObjStrKey];
 
-export const useUtilityStyles = (props: StrKeyObj = {}): UseUtilitiesReturnType => {
+export const useUtilityStyles = (props: ObjStrKey = {}): UseUtilitiesReturnType => {
   const theme = useTheme();
   const utilityClasses = useUtilityClasses();
   // prettier-ignore
   let {
-    x, sx, style, gap, rowGap, bg, color, sized, aspectRatio, xs, sm, md, lg, xl, xxl,
+    x, sx, style, gap, rowGap, bg, color, sized, aspectRatio,
     ...otherProps
   } = props;
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
-  if (process.env.NODE_ENV !== 'production') {
-    if ([gap, rowGap, bg, color, sized, aspectRatio, xs, sm, md, lg, xl, xxl].some(Boolean) && !x) {
-      /*throw new Error*/
-      console.error('x prop is required when using utility props on Box');
-    }
-  }
-  const deps = [sx, style, gap, rowGap, bg, color, sized, aspectRatio, xs, sm, md, lg, xl, xxl];
+
+  const deps = [sx, style, gap, rowGap, bg, color, sized, aspectRatio];
   // eslint-disable-next-line no-sparse-arrays
-  const ignoreDeps = [, , , , , , , , , , , , , x]; // react wants the num of deps to stay the same...
+  const ignoreDeps = [1, 1, 1, 1, 1, 1, 1, x]; // react wants the num of deps to stay the same...
   // maybe this is pointless?... nah they wouldnt change and therefore the memo function would not run unnecessarily
   //
   const withUtilities = useShallowEqualMemo(
@@ -64,11 +58,11 @@ export const useUtilityStyles = (props: StrKeyObj = {}): UseUtilitiesReturnType 
         let { flex, col } = otherProps;
         let [utilities, toSx, others] = getUtilities(theme, utilityClasses, otherProps);
         // styles
-        const styles: StrKeyObj = {};
+        const styles: ObjStrKey = {};
         if (rowGap || rowGap === 0) styles['--rowGap'] = `${theme.spacing(rowGap)}px`;
         if (gap || gap === 0) styles['--gridGap'] = `${theme.spacing(gap)}px`;
         if (aspectRatio) styles['--aspect-ratio'] = aspectRatio;
-        if (col) getMQ({ xs, sm, md, lg, xl, xxl }, styles);
+        if (col) getMQ(col, styles);
         if (style) assign(styles, style);
         // sx
         if (bg) toSx.background = theme.getColor(bg);
@@ -118,11 +112,13 @@ export const useBoxProps = ({
   return assign({ Component: component, className: allClasses }, other);
 };
 
-export const Box: FC<BoxProps> = forwardRef<Element, BoxProps>(({ children, ...props }, ref) => {
-  const { Component, ...rest } = useBoxProps(props);
-  return (
-    <Component ref={ref} {...rest}>
-      {children}
-    </Component>
-  );
-});
+export const X: FC<BoxProps> = memo(
+  forwardRef<Element, BoxProps>(({ children, ...props }, ref) => {
+    const { Component, ...rest } = useBoxProps(props);
+    return (
+      <Component ref={ref} {...rest}>
+        {children}
+      </Component>
+    );
+  })
+);
