@@ -19,6 +19,10 @@ const Colors: FC<ComponentProps<any>> = () => {
   );
 };
 
+const Group: FC<ComponentProps<any>> = (props) => (
+  <X x w1 flex aic wrap sx={{ gap: 8 }} mt={2} {...props} />
+);
+
 const ToggleModeDemo: FC<ComponentProps<any>> = (props) => {
   const [mode, setMode] = useThemeMode();
   console.log(mode);
@@ -26,7 +30,7 @@ const ToggleModeDemo: FC<ComponentProps<any>> = (props) => {
     <X x w1 {...props} mb={2}>
       <X x p={2} bg={'bg1'} br2 sh1>
         <Colors />
-        <X x flex aic sx={{ gap: 8 }} mt={2}>
+        <Group>
           <Button onClick={() => setMode('dark' as Mode)}>Dark Mode</Button>
           <Button onClick={() => setMode('light' as Mode)}>Light Mode</Button>
           <Button onClick={() => setMode('system' as Mode)}>System Mode</Button>
@@ -42,47 +46,62 @@ const ToggleModeDemo: FC<ComponentProps<any>> = (props) => {
           <X x bold>
             {mode.perceived}
           </X>
-        </X>
+        </Group>
       </X>
     </X>
   );
 };
+
 const Buttons: FC<ComponentProps<any>> = (props) => {
   return (
     <X x w1 {...props} mb={2}>
       <X x p={2} bg={'bg1'} br2 sh1>
-        <X x w1 flex sx={{ gap: 8 }}>
+        <Group>
           <Button>Btn</Button>
-          <Button outlined>Btn outlined</Button>
+          <Button outlined>Btn Outlined</Button>
           <Button primary>Primary Btn</Button>
           <Button primary outlined>
             Primary Btn Outlined
           </Button>
-        </X>
-        <X x w1 flex sx={{ gap: 8 }} mt={2}>
-          <Button disabled>Btn Disabled</Button>
+        </Group>
+        <Group>
+          <Button disabled>Disabled</Button>
           <Button disabled outlined>
-            Btn outlined Disabled
+            Outlined Disabled
           </Button>
           <Button disabled primary>
-            Primary Btn Disabled
+            primary Disabled
           </Button>
           <Button disabled primary outlined>
-            Primary Btn Outlined Disabled
+            Primary Outlined Disabled
           </Button>
-        </X>
-        <X x w1 flex sx={{ gap: 8 }} mt={2}>
+        </Group>
+        <Group>
           <Button size={'sm'}> Btn sm</Button>
           <Button size={'sm'} outlined>
-            dflt outlined sm
+            Outlined sm
           </Button>
           <Button size={'sm'} primary>
-            Primary Btn sm
+            Primary sm
           </Button>
           <Button size={'sm'} primary outlined>
             Primary Outlined sm
           </Button>
-        </X>
+        </Group>
+        <Group>
+          <Button size={'sm'} disabled>
+            Disabled sm
+          </Button>
+          <Button size={'sm'} outlined disabled>
+            Disabled Outlined sm
+          </Button>
+          <Button size={'sm'} primary disabled>
+            Disabled Primary sm
+          </Button>
+          <Button size={'sm'} primary outlined disabled>
+            Disabled Primary outlined sm
+          </Button>
+        </Group>
       </X>
     </X>
   );
@@ -113,9 +132,6 @@ const Grid: FC<ComponentProps<any>> = () => {
 };
 
 const Typography: FC<ComponentProps<any>> = () => {
-  const {
-    typography: { scale }
-  } = useTheme();
   return (
     <X x w1 p={2} bg={'bg1'} br2 sh1>
       <X x txl>

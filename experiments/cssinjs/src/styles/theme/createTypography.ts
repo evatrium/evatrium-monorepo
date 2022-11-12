@@ -1,7 +1,7 @@
-import { ObjStrKey, Theme } from '~/styles';
+import { Theme } from '~/styles';
 import { ObjStrKey } from '@evatrium/utils';
 
-export const typography = ({ palette }: { palette: ObjStrKey }) => {
+export const createTypography = ({ palette }: { palette: ObjStrKey }) => {
   const htmlFontSize = 14;
   const regular = 400;
   const medium = 500;
@@ -25,20 +25,20 @@ export const typography = ({ palette }: { palette: ObjStrKey }) => {
       lineHeight: lh
     };
   };
-  console.log(typeof (1.123).toFixed(3));
+  // console.log(typeof (1.123).toFixed(3)); // string
   const scale: ObjStrKey = ['txxl', 'txl', 'tlg', 'tmd', 't', 'tsm', 'txs'].reduce(
     (acc, curr, i) => {
       i = i + 1;
-      const hemmed = ratio / parseFloat(`1.${i + 15}`);
       acc[curr] = typo({ px: parseFloat(((30 / i) * ratio).toFixed(3)), lh: ratio });
       return acc;
     },
     {} as ObjStrKey
   );
 
-  console.log(scale);
+  // console.log(scale);
 
   return {
+    pxToRem,
     scale,
     html: {
       fontSize: htmlFontSize,
@@ -54,7 +54,7 @@ export const typography = ({ palette }: { palette: ObjStrKey }) => {
     },
     button: {
       fontWeight: weights.bold,
-      textTransform: 'uppercase',
+      // textTransform: 'uppercase',
       ...scale.t
     }
   };

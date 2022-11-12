@@ -46,12 +46,13 @@ export const useUtilityStyles = (props: ObjStrKey = {}): UseUtilitiesReturnType 
     x, sx, style, gap, rowGap, bg, color, sized, aspectRatio,
     ...otherProps
   } = props;
-
+  const returnStyle = !!style;
   const deps = [sx, style, gap, rowGap, bg, color, sized, aspectRatio];
+  // x = deps.some(Boolean);
+  // console.log(x);
   // eslint-disable-next-line no-sparse-arrays
   const ignoreDeps = [1, 1, 1, 1, 1, 1, 1, x]; // react wants the num of deps to stay the same...
-  // maybe this is pointless?... nah they wouldnt change and therefore the memo function would not run unnecessarily
-  //
+
   const withUtilities = useShallowEqualMemo(
     () => {
       if (x) {
@@ -79,7 +80,7 @@ export const useUtilityStyles = (props: ObjStrKey = {}): UseUtilitiesReturnType 
     x ? deps : ignoreDeps
   );
   if (x) return withUtilities as UseUtilitiesReturnType;
-  if (!isEmpty(style)) otherProps.style = style;
+  if (returnStyle) otherProps.style = style;
   return ['', sx, otherProps];
 };
 

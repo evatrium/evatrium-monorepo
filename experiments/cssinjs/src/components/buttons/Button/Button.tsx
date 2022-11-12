@@ -1,15 +1,16 @@
 import { Theme } from '~/styles/types';
 import { ComponentPropsWithRef, FC } from 'react';
-import { X, BoxProps, useStyles, useTheme } from '~/styles';
-import { useVars } from '~/styles';
-import { ObjStrKey } from '@evatrium/utils';
-import { convertVars } from '~/styles/cssinjs/util';
+import { X, BoxProps, useStyles } from '~/styles';
+import { cn, deepMergeSimple } from '@evatrium/utils';
 
-type ButtonProps = {
-  cn?: string;
-} & BoxProps &
-  ComponentPropsWithRef<'button'> &
-  ButtonVariants;
+interface ButtonVariants {
+  outlined?: boolean;
+  primary?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  focusVisible?: boolean;
+}
+
+type ButtonProps = BoxProps & ComponentPropsWithRef<'button'> & ButtonVariants;
 
 const buttonBaseStyles = (theme: Theme, variants?: ButtonVariants) => ({
   root: {
@@ -19,11 +20,10 @@ const buttonBaseStyles = (theme: Theme, variants?: ButtonVariants) => ({
     position: 'relative',
     boxSizing: 'border-box',
     WebkitTapHighlightColor: 'transparent',
-    backgroundColor: 'transparent', // Reset default value
-    // We disable the focus ring for mouse, touch and keyboard users.
+    backgroundColor: 'transparent',
     outline: 0,
     border: 0,
-    margin: 0, // Remove the margin in Safari
+    margin: 0,
     borderRadius: 0,
     padding: 0, // Remove the padding in Firefox
     cursor: 'pointer',
@@ -32,7 +32,6 @@ const buttonBaseStyles = (theme: Theme, variants?: ButtonVariants) => ({
     MozAppearance: 'none', // Reset
     WebkitAppearance: 'none', // Reset
     textDecoration: 'none',
-    // So we take precedent over the style of a native <a /> element.
     // color: 'inherit',
     // eslint-disable-next-line
     // '& ::-moz-focus-inner': {
@@ -45,12 +44,8 @@ const buttonBaseStyles = (theme: Theme, variants?: ButtonVariants) => ({
     '@media print': {
       colorAdjust: 'exact'
     },
-    // padding: '8px 22px',
     flexShrink: 0,
     overflow: 'hidden',
-    // fontWeight: 'bold',
-    // textTransform: 'uppercase',
-
     transition: theme.transitions.create(['background', 'box-shadow', 'border-color', 'color'], {
       duration: theme.transitions.duration.short
     })
@@ -58,48 +53,9 @@ const buttonBaseStyles = (theme: Theme, variants?: ButtonVariants) => ({
 });
 
 // TODO: finish theming/palette ..etc
-const buttonStyles = (theme: Theme, variants: ButtonVariants) => ({
-  root: {
-    ...buttonBaseStyles(theme).root,
-    background: `var(--btn-bg, ${theme.palette.action})`,
-    ['&:hover']: {
-      background: `var(--btn-bgHover, ${theme.palette.actionHover})`
-    },
-    ['&:active']: {
-      background: `var(--btn-bgActive, ${theme.palette.actionActive})`
-    },
-    // ['&:focus']: {
-    //   background: `var(--btn-bgFocus, ${theme.palette.actionFocus})`
-    // },
-
-    px: `var(--btn-px, ${theme.spacing(2.8)}px)`,
-    py: `var(--btn-py, ${theme.spacing(0.8)}px)`,
-    border: `var(--btn-border, 0)`,
-    color: `var(--btn-color, ${theme.palette.t1})`,
-    cursor: 'pointer',
-    borderRadius: `var(--btn-br, ${55 + 'px'}/${55 + 'px'})`,
-    ...theme.typography.button,
-    fontSize: `var(--btn-fontSize, ${theme.typography.scale.t.fontSize})`,
-    [`&[disabled]`]: {
-      pointerEvents: 'none', // Disable link interactions
-      cursor: 'not-allowed',
-      background: `var(--bt-bgDisabled, ${theme.palette.actionDisabled})`,
-      color: `var(--btn-colorDisabled, ${theme.typography})`,
-      opacity: 0.5
-    }
-  }
-});
-
-interface ButtonVariants {
-  outlined?: boolean;
-  primary?: boolean;
-  size?: 'sm';
-  color?: keyof Theme['palette'];
-}
-
-const btnVariantVars = (theme: Theme, variants: ObjStrKey) => {
-  const { primary, size, outlined, color } = variants;
-  const { palette, getColor, spacing, typography } = theme;
+const buttonStyles = (theme: Theme, variants: ButtonVariants) => {
+  const { primary, size, outlined, focusVisible } = variants;
+  const { palette, getColor, typography, shape } = theme;
   const {
     actionPrimary,
     actionHoverPrimary,
@@ -107,41 +63,79 @@ const btnVariantVars = (theme: Theme, variants: ObjStrKey) => {
     actionActivePrimary,
     actionDisabledPrimary
   } = palette;
-  const vars = {
-    ...(primary && {
-      ...(outlined
-        ? {
-            color: palette.primary,
-            bgDisabled: actionDisabledPrimary
-          }
-        : {
-            bg: actionPrimary,
-            bgHover: actionHoverPrimary,
-            bgActive: actionActivePrimary,
-            bgFocus: actionFocusPrimary,
-            bgDisabled: actionDisabledPrimary,
-            color: palette.contrast2
-          })
-    }),
+  const root = {
+    ...buttonBaseStyles(theme).root,
+    px: 3,
+    py: 0.8,
+    borderRadius: shape.br1,
+    minHeight: typography.pxToRem(40),
+    ...typography.button,
     ...(size === 'sm' && {
-      px: spacing(1.5),
-      py: spacing(0.25),
-      fontSize: typography.scale.tsm.fontSize
+      px: 1.5,
+      py: 0.4,
+      ...typography.scale.tsm,
+      minHeight: typography.pxToRem(30)
     }),
+    color: palette.t1,
+    background: palette.action,
+    ['&:hover']: {
+      background: palette.actionHover
+    },
+    ['&:active']: {
+      background: palette.actionActive
+    },
+    ...(focusVisible && {
+      ['&:focus']: {
+        background: palette.actionFocus
+      }
+    }),
+    '@media (hover: none)': {
+      background: palette.action
+    },
     border: outlined
-      ? `2px solid ${getColor(color || primary ? 'primary' : 'grey.500') || 'transparent'}`
-      : 0
-  };
+      ? `2px solid ${getColor(primary ? 'primary' : 'grey.500') || 'transparent'}`
+      : 0,
+    ...(primary &&
+      outlined && {
+        color: palette.primary
+      }),
+    ...(primary &&
+      !outlined && {
+        background: actionPrimary,
+        color: palette.contrast2,
+        ['&:hover']: {
+          background: actionHoverPrimary
+        },
 
-  return convertVars('btn', vars);
+        ['&:active']: {
+          background: actionActivePrimary
+        },
+        ...(focusVisible && {
+          ['&:focus']: {
+            background: actionFocusPrimary
+          }
+        }),
+        '@media (hover: none)': {
+          background: actionPrimary
+        }
+      }),
+    cursor: 'pointer',
+    [`&[disabled]`]: {
+      pointerEvents: 'none', // Disable link interactions
+      cursor: 'not-allowed',
+      background: !outlined && primary ? actionDisabledPrimary : palette.actionDisabled,
+      opacity: 0.6
+    }
+  };
+  return deepMergeSimple({ root }, theme.components.Button?.styles(theme, variants));
 };
 
 export const Button: FC<ButtonProps> = ({
   variant = 'contained',
-  size = 'default',
+  size = 'md',
   color,
   children,
-  classes,
+  className,
   primary,
   outlined,
   disabled,
@@ -150,23 +144,21 @@ export const Button: FC<ButtonProps> = ({
   disabledContainerProps: dcp,
   ...rest
 }) => {
-  const btn = useStyles(buttonStyles);
-  const btnVars = useStyles(btnVariantVars, {
-    variants: { primary, size, outlined, color },
-    declarations: true
+  const btn = useStyles(buttonStyles, {
+    variants: { primary, size, outlined, color }
   });
   const rendered = (
     <X
       component={'button'}
       disabled={disabled}
-      classes={['btn', btn.root, btnVars, classes]}
+      className={cn('btn', btn.root, className)}
       {...rest}>
       {children}
     </X>
   );
   if (disabled && wrapDisabledCursor) {
     return (
-      <div {...dcp} style={{ ...dcp?.style, display: 'inline-flex', cursor: 'not-allowed' }}>
+      <div {...dcp} style={{ ...dcp?.style, display: 'contents', cursor: 'not-allowed' }}>
         {rendered}
       </div>
     );

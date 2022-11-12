@@ -2,32 +2,33 @@ import breakpoints from '~/styles/theme/breakpoints';
 import { Theme } from '~/styles/types';
 import { createTransitions } from './transitions';
 import { palette } from '~/styles/theme/_genratePalette';
-import { typography } from '~/styles/theme/typography';
+import { createTypography } from '~/styles/theme/createTypography';
 import { getIn } from '@evatrium/utils';
 
 export const spacingUnit = 8;
 
-const getColor = (theme: Theme, color: string) => {
-  const { palette } = theme;
-  if (palette[color]) return palette[color];
-  if (String(color).startsWith('grey')) return palette.grey[color.replace('grey', '')];
-  return color;
-};
 const spacing = (units: number) => spacingUnit * units;
 spacing.units = 'px';
+
+const shape = { br1: 4, br2: 16, br3: '55px/55px' };
+const typography = createTypography({ palette });
+const shadows = [
+  'none',
+  '0 2px 10px 0 rgba(var(--shadowBase), 15%)',
+  '0px 2px 10px 0 rgb(var(--shadowBase), 15%), 0px 5px 14px 1px rgb(var(--shadowBase), 20%)'
+];
+
+function getColor(dotWalk: string) {
+  return getIn(palette, dotWalk, '');
+}
+
 export const theme: Theme = {
   spacing,
-  typography: typography({ palette }),
-  shape: { br1: 2, br2: 10, br3: 50 },
+  shape,
   breakpoints,
   palette,
-  shadows: [
-    'none',
-    '0 2px 10px 0 rgba(var(--shadowBase), 15%)',
-    '0px 2px 10px 0 rgb(var(--shadowBase), 15%), 0px 5px 14px 1px rgb(var(--shadowBase), 20%)'
-  ],
-  // typography: createTypography(),
-  // @ts-ignore
+  typography,
+  shadows,
   transitions: {
     standard: (prop = 'all') => `${prop} 200ms ease-in-out`,
     ...createTransitions()
@@ -36,10 +37,21 @@ export const theme: Theme = {
     navBar: 5000
   },
   components: {
-    navHeight: 56
+    NavBar: {
+      styles: () => ({
+        root: {
+          height: 56
+        }
+      })
+    },
+    Button: {
+      styles: () => ({
+        root: {
+          borderRadius: shape.br3
+        }
+      })
+    }
   },
-  getColor(dotWalk: string) {
-    return getIn(palette, dotWalk, '');
-  }
+  getColor
   // icons
 };

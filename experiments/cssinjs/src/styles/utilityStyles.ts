@@ -7,8 +7,11 @@ export const utilityStyles = (theme: Theme) => {
     bold: {
       fontWeight: 'bold'
     },
-    tuc: {
+    ttu: {
       textTransform: 'uppercase'
+    },
+    ttc: {
+      textTransform: 'capitalize'
     },
     tac: {
       textAlign: 'center'
@@ -149,6 +152,12 @@ export const utilityStyles = (theme: Theme) => {
     },
     ofa: {
       overflow: 'auto'
+    },
+    ofya: {
+      overflowY: 'auto'
+    },
+    ofxa: {
+      overflowX: 'auto'
     },
 
     //---------------------ANIMATIONS------------------

@@ -58,19 +58,24 @@ const createCascadingPaletteFromPrimary = (color: any) => {
     tinycolor(color).desaturate().lighten(20).toHexString()
   ];
 
-  const makeActionColors = (color: any[]) => {
+  const makeActionColors = (color: any[], options = {}) => {
     // prettier-ignore
     const action = [
       alpha(tinycolor(color[0]), 1),
       alpha(tinycolor(color[1]), 1)
     ]
     const actionHover = [
-      /* light */ alpha(tinycolor(color[0]).darken(5).desaturate(10), 1),
-      /* dark */ alpha(tinycolor(color[1]).darken(3).desaturate(2), 1)
+      alpha(tinycolor(color[0]).darken(10).desaturate(10), 1),
+      alpha(tinycolor(color[1]).darken(15).desaturate(10), 1)
     ];
     const actionActive = [
-      alpha(tinycolor(color[0]).darken(20).desaturate(10), 0.9),
-      alpha(tinycolor(color[1]).darken(15).desaturate(15), 0.9)
+      alpha(
+        tinycolor(color[0])
+          .darken(options.darker ? 28 : 20)
+          .saturate(options.darker ? 30 : 0),
+        options.darker ? 1 : 0.8
+      ),
+      alpha(tinycolor(color[1]).darken(22).desaturate(10), 0.9)
     ];
     // prettier-ignore
     const actionFocus = [
@@ -129,7 +134,7 @@ const createCascadingPaletteFromPrimary = (color: any) => {
     bg3: [grey[200], grey[750]],
     shadowBase: [getRgbValues(lightShadowBase), getRgbValues(darkShadowBase)],
     ...mapToActionType('', makeActionColors([grey[100], grey[750]])),
-    ...mapToActionType('primary', makeActionColors(primary))
+    ...mapToActionType('primary', makeActionColors(primary, { darker: true }))
   };
 
   const declarations = {};
