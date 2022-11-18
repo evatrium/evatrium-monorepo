@@ -97,6 +97,21 @@ importers:
       vite-plugin-pwa: 0.12.8_2txo4viysstjrz5b6oxcrxybay
       vitest: 0.24.3_jsdom@20.0.1+terser@5.15.1
 
+  apps/pwa:
+    specifiers:
+      '@evatrium/configs': workspace:*
+      '@evatrium/hooks': workspace:*
+      '@evatrium/utils': workspace:*
+      react: ^18.1.0
+      react-dom: ^18.1.0
+    dependencies:
+      '@evatrium/hooks': link:../../packages/hooks
+      '@evatrium/utils': link:../../packages/utils
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@evatrium/configs': link:../../packages/configs
+
   experiments/cssinjs:
     specifiers:
       '@evatrium/configs': workspace:*
